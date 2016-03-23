@@ -29,5 +29,10 @@
     "eslint-plugin-react": "^4.2.3",
     "lodash": "^4.6.1",
     "tap": "^5.7.0"
+  },
+  "nyc": {
+    "exclude": [
+      "src/polyfill.js"
+    ]
   }
 }
