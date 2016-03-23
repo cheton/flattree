@@ -8,3 +8,41 @@ Convert hierarchical tree structure to flat structure.
 ```bash
 npm install --save flattree
 ```
+
+## Examples
+
+### Flat List View
+```js
+flatten(tree).forEach((node, index) => {
+    console.log({
+        label: node.label,
+        parent: node.parent !== null ? node.parent._state.path : null,
+        children: Object.keys(node.children).length,
+        _state: node._state
+    ));
+});
+```
+
+### Nest Hierarchies
+```js
+flatten(tree).forEach((node, index) => {
+    const { _state, label = '', children = [] } = node;
+    const { depth, last, more, path, prefixMask } = _state;
+  
+    if (depth === 0) {
+        console.log(label);
+        return;
+    }
+
+    const prefix = prefixMask.split('')
+        .map(s => (Number(s) === 0) ? '  ' : '| ')
+        .join('');
+    
+    console.log(prefix + 
+        (last ? '└' : '├') + '─' +
+        (more ? '┬' : '─') + ' ' +
+        label +
+        ' (' + path + ')'
+    );
+});
+```
