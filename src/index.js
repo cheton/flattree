@@ -74,7 +74,7 @@ class FlatTree {
             if (isFolded(current)) {
                 continue;
             }
-            
+
             while (index < current.children.length) {
                 const node = current.children[index];
                 node.parent = current;
