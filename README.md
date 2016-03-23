@@ -38,11 +38,28 @@ flatten(tree).forEach((node, index) => {
         .map(s => (Number(s) === 0) ? '  ' : '| ')
         .join('');
     
-    console.log(prefix + 
-        (last ? '└' : '├') + '─' +
-        (more ? '┬' : '─') + ' ' +
-        label +
-        ' (' + path + ')'
-    );
+    console.log('%s%s─%s %s (%s)', prefix, (last ? '└' : '├'), (more ? '┬' : '─'), label, path);
+});
+```
+
+### Single Root Node
+```js
+flatten(tree).forEach((node, index) => {
+    const { label = '', _state = {}, children = [] } = node;
+
+    let padding = pad('', _state.depth * 2, ' ');
+    if (_state.folded) {
+        padding += '+ ';
+    } else if (children.length > 0) {
+        padding += '- ';
+    } else {
+        padding += '  ';
+    }
+
+    if (_state.depth === 0) {
+        console.log('%s%s', padding, label);
+    } else {
+        console.log('%s%s (%s)', padding, label, _state.path);
+    }
 });
 ```
