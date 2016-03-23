@@ -1,7 +1,7 @@
 {
   "name": "flattree",
   "version": "0.1.0",
-  "description": "Turning a tree into a flat structure",
+  "description": "Convert hierarchical tree structure to flat structure.",
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "npm run lint && npm run build && npm test && npm run lint",
