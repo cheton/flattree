@@ -1,64 +1,12 @@
 import { test } from 'tap';
+import fs from 'fs';
+import path from 'path';
 import util from 'util';
 import pad from 'lodash/pad';
-import FlatTree from '../src';
+import { flatten } from '../src';
 
-const tree = {
-    label: '<root>',
-    state: {
-        isFolded: false
-    },
-    children: [
-        {
-            label: 'Alpha',
-        },
-        {
-            label: 'Bravo',
-            state: {
-                isFolded: false
-            },
-            children: [
-                {
-                    label: 'Charlie',
-                    children: [
-                        {
-                            label: 'Delta',
-                            state: {
-                                isFolded: true
-                            },
-                            children: [
-                                {
-                                    label: 'Echo',
-                                },
-                                {
-                                    label: 'Foxtrot'
-                                }
-                            ]
-                        },
-                        {
-                            label: 'Golf'
-                        }
-                    ]
-                },
-                {
-                    label: 'Hotel',
-                    children: [
-                        {
-                            label: 'India',
-                            children: [
-                                {
-                                    label: 'Juliet'
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    label: 'Kilo'
-                }
-            ]
-        }
-    ]
+const fixtures = {
+    tree: fs.readFileSync(path.resolve(__dirname, 'fixtures/tree.json'))
 };
 
 test('Flat list view', (t) => {
@@ -199,7 +147,8 @@ test('Flat list view', (t) => {
     ];
     let found = [];
 
-    new FlatTree(tree).flatten().forEach((node, index) => {
+    const tree = JSON.parse(fixtures.tree);
+    flatten(tree).forEach((node, index) => {
         let o = {
             label: node.label,
             parent: node.parent !== null ? node.parent._state.path : null,
@@ -232,7 +181,8 @@ test('Nested hierarchies', (t) => {
     ].join('\n');
     let found = '';
 
-    new FlatTree(tree).flatten().forEach((node, index) => {
+    const tree = JSON.parse(fixtures.tree);
+    flatten(tree).forEach((node, index) => {
         const { _state, label = '', children = [] } = node;
         const { depth, last, more, path, prefixMask } = _state;
         
@@ -273,7 +223,8 @@ test('Single root node', (t) => {
     ].join('\n');
     let found = '';
 
-    new FlatTree(tree).flatten().forEach((node, index) => {
+    const tree = JSON.parse(fixtures.tree);
+    flatten(tree).forEach((node, index) => {
         const { label = '', _state = {}, children = [] } = node;
       
         let padding = pad('', _state.depth * 2, ' ');
@@ -311,7 +262,8 @@ test('Multiple root nodes', (t) => {
     ].join('\n');
     let found = '';
 
-    new FlatTree(tree.children).flatten().forEach((node, index) => {
+    const tree = JSON.parse(fixtures.tree);
+    flatten(tree.children).forEach((node, index) => {
         const { label = '', _state = {}, children = [] } = node;
       
         let padding = pad('', _state.depth * 2, ' ');
