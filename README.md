@@ -9,6 +9,25 @@ Convert hierarchical tree structure to flat structure.
 npm install --save flattree
 ```
 
+## Usage
+```js
+import { flatten } from 'flattree';
+
+const tree = {
+    label: 'Fruit',
+    state: {
+        isFolded: false
+    },
+    children: [
+        { label: 'Apple' },
+        { label: 'Banana' }
+    ]
+};
+
+const ft = flatten(tree); // tree can either be Object or Array
+console.log(ft);
+```
+
 ## Examples
 
 Given a hierarchical tree structure like below:
