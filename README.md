@@ -19,40 +19,57 @@ const tree = {
 	"state": {
 		"isFolded": false
 	},
-	"children": [{
-		"label": "Alpha"
-	}, {
-		"label": "Bravo",
-		"state": {
-			"isFolded": false
+	"children": [
+		{
+			"label": "Alpha"
 		},
-		"children": [{
-			"label": "Charlie",
-			"children": [{
-				"label": "Delta",
-				"state": {
-					"isFolded": true
+		{
+			"label": "Bravo",
+			"state": {
+				"isFolded": false
+			},
+			"children": [
+				{
+					"label": "Charlie",
+					"children": [
+						{
+							"label": "Delta",
+							"state": {
+								"isFolded": true
+							},
+							"children": [
+								{
+									"label": "Echo"
+								},
+								{
+									"label": "Foxtrot"
+								}
+							]
+						},
+						{
+							"label": "Golf"
+						}
+					]
 				},
-				"children": [{
-					"label": "Echo"
-				}, {
-					"label": "Foxtrot"
-				}]
-			}, {
-				"label": "Golf"
-			}]
-		}, {
-			"label": "Hotel",
-			"children": [{
-				"label": "India",
-				"children": [{
-					"label": "Juliet"
-				}]
-			}]
-		}, {
-			"label": "Kilo"
-		}]
-	}]
+				{
+					"label": "Hotel",
+					"children": [
+						{
+							"label": "India",
+							"children": [
+								{
+									"label": "Juliet"
+								}
+							]
+						}
+					]
+				},
+				{
+					"label": "Kilo"
+				}
+			]
+		}
+	]
 };
 ```
 
