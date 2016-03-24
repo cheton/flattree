@@ -13,64 +13,64 @@ npm install --save flattree
 
 Given a hierarchical tree structure like below:
 
-```js
-const tree = {
-	"label": "<root>",
-	"state": {
-		"isFolded": false
-	},
-	"children": [
-		{
-			"label": "Alpha"
-		},
-		{
-			"label": "Bravo",
-			"state": {
-				"isFolded": false
-			},
-			"children": [
-				{
-					"label": "Charlie",
-					"children": [
-						{
-							"label": "Delta",
-							"state": {
-								"isFolded": true
-							},
-							"children": [
-								{
-									"label": "Echo"
-								},
-								{
-									"label": "Foxtrot"
-								}
-							]
-						},
-						{
-							"label": "Golf"
-						}
-					]
-				},
-				{
-					"label": "Hotel",
-					"children": [
-						{
-							"label": "India",
-							"children": [
-								{
-									"label": "Juliet"
-								}
-							]
-						}
-					]
-				},
-				{
-					"label": "Kilo"
-				}
-			]
-		}
-	]
-};
+```json
+{
+    "label": "<root>",
+    "state": {
+        "isFolded": false
+    },
+    "children": [
+        {
+            "label": "Alpha"
+        },
+        {
+            "label": "Bravo",
+            "state": {
+                "isFolded": false
+            },
+            "children": [
+                {
+                    "label": "Charlie",
+                    "children": [
+                        {
+                            "label": "Delta",
+                            "state": {
+                                "isFolded": true
+                            },
+                            "children": [
+                                {
+                                    "label": "Echo"
+                                },
+                                {
+                                    "label": "Foxtrot"
+                                }
+                            ]
+                        },
+                        {
+                            "label": "Golf"
+                        }
+                    ]
+                },
+                {
+                    "label": "Hotel",
+                    "children": [
+                        {
+                            "label": "India",
+                            "children": [
+                                {
+                                    "label": "Juliet"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "label": "Kilo"
+                }
+            ]
+        }
+    ]
+}
 ```
 
 ### Flat List View
