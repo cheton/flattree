@@ -34,55 +34,55 @@ Given a hierarchical tree structure like below:
 
 ```json
 {
-    "label": "<root>",
-    "children": [
+  "label": "<root>",
+  "children": [
+    {
+      "label": "Alpha"
+    },
+    {
+      "label": "Bravo",
+      "children": [
         {
-            "label": "Alpha"
+          "label": "Charlie",
+          "children": [
+            {
+              "label": "Delta",
+              "state": {
+                "isFolded": true
+              },
+              "children": [
+                {
+                  "label": "Echo"
+                },
+                {
+                  "label": "Foxtrot"
+                }
+              ]
+            },
+            {
+              "label": "Golf"
+            }
+          ]
         },
         {
-            "label": "Bravo",
-            "children": [
+          "label": "Hotel",
+          "children": [
+            {
+              "label": "India",
+              "children": [
                 {
-                    "label": "Charlie",
-                    "children": [
-                        {
-                            "label": "Delta",
-                            "state": {
-                                "isFolded": true
-                            },
-                            "children": [
-                                {
-                                    "label": "Echo"
-                                },
-                                {
-                                    "label": "Foxtrot"
-                                }
-                            ]
-                        },
-                        {
-                            "label": "Golf"
-                        }
-                    ]
-                },
-                {
-                    "label": "Hotel",
-                    "children": [
-                        {
-                            "label": "India",
-                            "children": [
-                                {
-                                    "label": "Juliet"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "label": "Kilo"
+                  "label": "Juliet"
                 }
-            ]
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Kilo"
         }
-    ]
+      ]
+    }
+  ]
 }
 ```
 
