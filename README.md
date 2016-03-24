@@ -141,10 +141,15 @@ flatten(tree).forEach((node, index) => {
 
 ### Single Root Node
 ```js
+const pad = (n = 0, chars) => {
+    let s = '';
+    while (n > 0) { s += chars; --n }
+    return s;
+};
 flatten(tree).forEach((node, index) => {
     const { label = '', _state = {}, children = [] } = node;
 
-    let padding = pad('', _state.depth * 2, ' ');
+    let padding = pad(_state.depth, '  ');
     if (_state.folded) {
         padding += '+ ';
     } else if (children.length > 0) {
@@ -161,12 +166,30 @@ flatten(tree).forEach((node, index) => {
 });
 ```
 
+```
+- <root>
+    Alpha (.0)
+  - Bravo (.1)
+    - Charlie (.1.0)
+      + Delta (.1.0.0)
+        Golf (.1.0.1)
+    - Hotel (.1.1)
+      - India (.1.1.0)
+          Juliet (.1.1.0.0)
+      Kilo (.1.2)
+```
+
 ### Multiple Root Nodes
 ```js
-flatten(tree.children).forEach((node, index) => {
+const pad = (n = 0, chars) => {
+    let s = '';
+    while (n > 0) { s += chars; --n }
+    return s;
+};
+flatten(tree).forEach((node, index) => {
     const { label = '', _state = {}, children = [] } = node;
 
-    let padding = pad('', _state.depth * 2, ' ');
+    let padding = pad(_state.depth, '  ');
     if (_state.folded) {
         padding += '+ ';
     } else if (children.length > 0) {
@@ -175,10 +198,18 @@ flatten(tree.children).forEach((node, index) => {
         padding += '  ';
     }
 
-    if (_state.depth === 0) {
-        console.log('%s%s', padding, label);
-    } else {
-        console.log('%s%s (%s)', padding, label, _state.path);
-    }
+    console.log('%s%s (%s)', padding, label, _state.path);
 });
+```
+
+```
+  Alpha (.0)
+- Bravo (.1)
+  - Charlie (.1.0)
+    + Delta (.1.0.0)
+      Golf (.1.0.1)
+  - Hotel (.1.1)
+    - India (.1.1.0)
+        Juliet (.1.1.0.0)
+    Kilo (.1.2)
 ```
