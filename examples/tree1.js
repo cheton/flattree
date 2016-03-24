@@ -4,7 +4,7 @@ import { flatten } from '../src';
 import tree from '../test/fixtures/tree.json';
 
 flatten(tree).forEach((node, index) => {
-    console.log('%s\n  path=%s, parent=%s, children=%d, depth=%d, prefix=%s, folded=%d, more=%d, last=%d',
+    console.log('%s: path=%s, parent=%s, children=%d, depth=%d, prefix=%s, folded=%d, more=%d, last=%d',
         node.label,
         JSON.stringify(node._state.path),
         node.parent !== null ? JSON.stringify(node.parent._state.path) : null,
