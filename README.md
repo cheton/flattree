@@ -101,7 +101,7 @@ Juliet: path=".1.1.0.0", parent=".1.1.0", children=0, depth=4, prefix="0010", fo
 Kilo: path=".1.2", parent=".1", children=0, depth=2, prefix="00", folded=0, more=0, last=1
 ```
 
-### Nest Hierarchies
+### Nested Hierarchy
 File: [examples/test2.js](https://github.com/cheton/node-flattree/blob/master/examples/tree2.js)
 ```
 <root>
