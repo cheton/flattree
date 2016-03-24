@@ -16,18 +16,12 @@ Given a hierarchical tree structure like below:
 ```json
 {
     "label": "<root>",
-    "state": {
-        "isFolded": false
-    },
     "children": [
         {
             "label": "Alpha"
         },
         {
             "label": "Bravo",
-            "state": {
-                "isFolded": false
-            },
             "children": [
                 {
                     "label": "Charlie",
