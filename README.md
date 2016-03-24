@@ -132,6 +132,19 @@ flatten(tree).forEach((node, index) => {
 });
 ```
 
+```
+<root>
+  ├── Alpha (.0)
+  └─┬ Bravo (.1)
+    ├─┬ Charlie (.1.0)
+    | ├── Delta (.1.0.0)
+    | └── Golf (.1.0.1)
+    ├─┬ Hotel (.1.1)
+    | └─┬ India (.1.1.0)
+    |   └── Juliet (.1.1.0.0)
+    └── Kilo (.1.2)
+```
+
 ### Single Root Node
 ```js
 flatten(tree).forEach((node, index) => {
