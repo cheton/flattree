@@ -59,13 +59,41 @@ const tree = {
 ### Flat List View
 ```js
 flatten(tree).forEach((node, index) => {
-    console.log({
-        label: node.label,
-        parent: node.parent !== null ? node.parent._state.path : null,
-        children: Object.keys(node.children).length,
-        _state: node._state
-    ));
+    console.log('%s\n  path=%s, parent=%s, children=%d, depth=%d, prefix=%s, folded=%d, more=%d, last=%d',
+        node.label,
+        JSON.stringify(node._state.path),
+        node.parent !== null ? JSON.stringify(node.parent._state.path) : null,
+        Object.keys(node.children).length,
+        node._state.depth,
+        JSON.stringify(node._state.prefixMask),
+        node._state.folded,
+        node._state.more,
+        node._state.last
+    );
 });
+```
+
+```
+<root>
+  path="", parent=null, children=2, depth=0, prefix="", folded=0, more=1, last=1
+Alpha
+  path=".0", parent="", children=0, depth=1, prefix="0", folded=0, more=0, last=0
+Bravo
+  path=".1", parent="", children=3, depth=1, prefix="0", folded=0, more=1, last=1
+Charlie
+  path=".1.0", parent=".1", children=2, depth=2, prefix="00", folded=0, more=1, last=0
+Delta
+  path=".1.0.0", parent=".1.0", children=2, depth=3, prefix="001", folded=1, more=0, last=0
+Golf
+  path=".1.0.1", parent=".1.0", children=0, depth=3, prefix="001", folded=0, more=0, last=1
+Hotel
+  path=".1.1", parent=".1", children=1, depth=2, prefix="00", folded=0, more=1, last=0
+India
+  path=".1.1.0", parent=".1.1", children=1, depth=3, prefix="001", folded=0, more=1, last=1
+Juliet
+  path=".1.1.0.0", parent=".1.1.0", children=0, depth=4, prefix="0010", folded=0, more=0, last=1
+Kilo
+  path=".1.2", parent=".1", children=0, depth=2, prefix="00", folded=0, more=0, last=1
 ```
 
 ### Nest Hierarchies
