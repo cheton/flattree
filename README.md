@@ -9,6 +9,25 @@ Convert hierarchical tree structure to flat structure.
 npm install --save flattree
 ```
 
+## Usage
+```js
+import { flatten } from 'flattree';
+
+const tree = {
+    label: 'Fruit',
+    state: {
+        isFolded: false
+    },
+    children: [
+        { label: 'Apple' },
+        { label: 'Banana' }
+    ]
+};
+
+const ft = flatten(tree); // tree can either be Object or Array
+console.log(ft);
+```
+
 ## Examples
 
 Given a hierarchical tree structure like below:
@@ -68,47 +87,22 @@ Given a hierarchical tree structure like below:
 ```
 
 ### Flat List View
+File: [examples/test1.js](https://github.com/cheton/node-flattree/blob/master/examples/tree1.js)
 ```
-<root>
-  path="", parent=null, children=2, depth=0, prefix="", folded=0, more=1, last=1
-Alpha
-  path=".0", parent="", children=0, depth=1, prefix="0", folded=0, more=0, last=0
-Bravo
-  path=".1", parent="", children=3, depth=1, prefix="0", folded=0, more=1, last=1
-Charlie
-  path=".1.0", parent=".1", children=2, depth=2, prefix="00", folded=0, more=1, last=0
-Delta
-  path=".1.0.0", parent=".1.0", children=2, depth=3, prefix="001", folded=1, more=0, last=0
-Golf
-  path=".1.0.1", parent=".1.0", children=0, depth=3, prefix="001", folded=0, more=0, last=1
-Hotel
-  path=".1.1", parent=".1", children=1, depth=2, prefix="00", folded=0, more=1, last=0
-India
-  path=".1.1.0", parent=".1.1", children=1, depth=3, prefix="001", folded=0, more=1, last=1
-Juliet
-  path=".1.1.0.0", parent=".1.1.0", children=0, depth=4, prefix="0010", folded=0, more=0, last=1
-Kilo
-  path=".1.2", parent=".1", children=0, depth=2, prefix="00", folded=0, more=0, last=1
-```
-
-**File: examples/tree1.js**
-```js
-flatten(tree).forEach((node, index) => {
-    console.log('%s\n  path=%s, parent=%s, children=%d, depth=%d, prefix=%s, folded=%d, more=%d, last=%d',
-        node.label,
-        JSON.stringify(node._state.path),
-        node.parent !== null ? JSON.stringify(node.parent._state.path) : null,
-        Object.keys(node.children).length,
-        node._state.depth,
-        JSON.stringify(node._state.prefixMask),
-        node._state.folded,
-        node._state.more,
-        node._state.last
-    );
-});
+<root>: path="", parent=null, children=2, depth=0, prefix="", folded=0, more=1, last=1
+Alpha: path=".0", parent="", children=0, depth=1, prefix="0", folded=0, more=0, last=0
+Bravo: path=".1", parent="", children=3, depth=1, prefix="0", folded=0, more=1, last=1
+Charlie: path=".1.0", parent=".1", children=2, depth=2, prefix="00", folded=0, more=1, last=0
+Delta: path=".1.0.0", parent=".1.0", children=2, depth=3, prefix="001", folded=1, more=0, last=0
+Golf: path=".1.0.1", parent=".1.0", children=0, depth=3, prefix="001", folded=0, more=0, last=1
+Hotel: path=".1.1", parent=".1", children=1, depth=2, prefix="00", folded=0, more=1, last=0
+India: path=".1.1.0", parent=".1.1", children=1, depth=3, prefix="001", folded=0, more=1, last=1
+Juliet: path=".1.1.0.0", parent=".1.1.0", children=0, depth=4, prefix="0010", folded=0, more=0, last=1
+Kilo: path=".1.2", parent=".1", children=0, depth=2, prefix="00", folded=0, more=0, last=1
 ```
 
 ### Nest Hierarchies
+File: [examples/test2.js](https://github.com/cheton/node-flattree/blob/master/examples/tree2.js)
 ```
 <root>
   ├── Alpha (.0)
@@ -122,26 +116,8 @@ flatten(tree).forEach((node, index) => {
     └── Kilo (.1.2)
 ```
 
-**File: examples/tree2.js**
-```js
-flatten(tree).forEach((node, index) => {
-    const { _state, label = '', children = [] } = node;
-    const { depth, last, more, path, prefixMask } = _state;
-  
-    if (depth === 0) {
-        console.log(label);
-        return;
-    }
-
-    const prefix = prefixMask.split('')
-        .map(s => (Number(s) === 0) ? '  ' : '| ')
-        .join('');
-    
-    console.log('%s%s─%s %s (%s)', prefix, (last ? '└' : '├'), (more ? '┬' : '─'), label, path);
-});
-```
-
 ### Single Root Node
+File: [examples/test3.js](https://github.com/cheton/node-flattree/blob/master/examples/tree3.js)
 ```
 - <root>
     Alpha (.0)
@@ -155,35 +131,8 @@ flatten(tree).forEach((node, index) => {
       Kilo (.1.2)
 ```
 
-**File: examples/tree3.js**
-```js
-const pad = (n = 0, chars) => {
-    let s = '';
-    while (n > 0) { s += chars; --n }
-    return s;
-};
-
-flatten(tree).forEach((node, index) => {
-    const { label = '', _state = {}, children = [] } = node;
-
-    let padding = pad(_state.depth, '  ');
-    if (_state.folded) {
-        padding += '+ ';
-    } else if (children.length > 0) {
-        padding += '- ';
-    } else {
-        padding += '  ';
-    }
-
-    if (_state.depth === 0) {
-        console.log('%s%s', padding, label);
-    } else {
-        console.log('%s%s (%s)', padding, label, _state.path);
-    }
-});
-```
-
 ### Multiple Root Nodes
+File: [examples/test4.js](https://github.com/cheton/node-flattree/blob/master/examples/tree4.js)
 ```
   Alpha (.0)
 - Bravo (.1)
@@ -194,28 +143,4 @@ flatten(tree).forEach((node, index) => {
     - India (.1.1.0)
         Juliet (.1.1.0.0)
     Kilo (.1.2)
-```
-
-**File: examples/tree4.js**
-```js
-const pad = (n = 0, chars) => {
-    let s = '';
-    while (n > 0) { s += chars; --n }
-    return s;
-};
-
-flatten(tree).forEach((node, index) => {
-    const { label = '', _state = {}, children = [] } = node;
-
-    let padding = pad(_state.depth, '  ');
-    if (_state.folded) {
-        padding += '+ ';
-    } else if (children.length > 0) {
-        padding += '- ';
-    } else {
-        padding += '  ';
-    }
-
-    console.log('%s%s (%s)', padding, label, _state.path);
-});
 ```
