@@ -2,6 +2,7 @@
 [![NPM](https://nodei.co/npm/flattree.png?downloads=true&stars=true)](https://nodei.co/npm/flattree/)
 
 Convert hierarchical tree structure to flat structure.
+With a flat structure, it allows you to scroll a large tree easily using [Clusterize.js](https://github.com/NeXTs/Clusterize.js).
 
 ## Installation
 
