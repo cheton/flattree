@@ -146,6 +146,7 @@ const pad = (n = 0, chars) => {
     while (n > 0) { s += chars; --n }
     return s;
 };
+
 flatten(tree).forEach((node, index) => {
     const { label = '', _state = {}, children = [] } = node;
 
@@ -186,6 +187,7 @@ const pad = (n = 0, chars) => {
     while (n > 0) { s += chars; --n }
     return s;
 };
+
 flatten(tree).forEach((node, index) => {
     const { label = '', _state = {}, children = [] } = node;
 
