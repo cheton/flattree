@@ -68,22 +68,6 @@ Given a hierarchical tree structure like below:
 ```
 
 ### Flat List View
-```js
-flatten(tree).forEach((node, index) => {
-    console.log('%s\n  path=%s, parent=%s, children=%d, depth=%d, prefix=%s, folded=%d, more=%d, last=%d',
-        node.label,
-        JSON.stringify(node._state.path),
-        node.parent !== null ? JSON.stringify(node.parent._state.path) : null,
-        Object.keys(node.children).length,
-        node._state.depth,
-        JSON.stringify(node._state.prefixMask),
-        node._state.folded,
-        node._state.more,
-        node._state.last
-    );
-});
-```
-
 ```
 <root>
   path="", parent=null, children=2, depth=0, prefix="", folded=0, more=1, last=1
@@ -107,7 +91,36 @@ Kilo
   path=".1.2", parent=".1", children=0, depth=2, prefix="00", folded=0, more=0, last=1
 ```
 
+```js
+flatten(tree).forEach((node, index) => {
+    console.log('%s\n  path=%s, parent=%s, children=%d, depth=%d, prefix=%s, folded=%d, more=%d, last=%d',
+        node.label,
+        JSON.stringify(node._state.path),
+        node.parent !== null ? JSON.stringify(node.parent._state.path) : null,
+        Object.keys(node.children).length,
+        node._state.depth,
+        JSON.stringify(node._state.prefixMask),
+        node._state.folded,
+        node._state.more,
+        node._state.last
+    );
+});
+```
+
 ### Nest Hierarchies
+```
+<root>
+  ├── Alpha (.0)
+  └─┬ Bravo (.1)
+    ├─┬ Charlie (.1.0)
+    | ├── Delta (.1.0.0)
+    | └── Golf (.1.0.1)
+    ├─┬ Hotel (.1.1)
+    | └─┬ India (.1.1.0)
+    |   └── Juliet (.1.1.0.0)
+    └── Kilo (.1.2)
+```
+
 ```js
 flatten(tree).forEach((node, index) => {
     const { _state, label = '', children = [] } = node;
@@ -126,20 +139,20 @@ flatten(tree).forEach((node, index) => {
 });
 ```
 
+### Single Root Node
 ```
-<root>
-  ├── Alpha (.0)
-  └─┬ Bravo (.1)
-    ├─┬ Charlie (.1.0)
-    | ├── Delta (.1.0.0)
-    | └── Golf (.1.0.1)
-    ├─┬ Hotel (.1.1)
-    | └─┬ India (.1.1.0)
-    |   └── Juliet (.1.1.0.0)
-    └── Kilo (.1.2)
+- <root>
+    Alpha (.0)
+  - Bravo (.1)
+    - Charlie (.1.0)
+      + Delta (.1.0.0)
+        Golf (.1.0.1)
+    - Hotel (.1.1)
+      - India (.1.1.0)
+          Juliet (.1.1.0.0)
+      Kilo (.1.2)
 ```
 
-### Single Root Node
 ```js
 const pad = (n = 0, chars) => {
     let s = '';
@@ -167,20 +180,19 @@ flatten(tree).forEach((node, index) => {
 });
 ```
 
+### Multiple Root Nodes
 ```
-- <root>
-    Alpha (.0)
-  - Bravo (.1)
-    - Charlie (.1.0)
-      + Delta (.1.0.0)
-        Golf (.1.0.1)
-    - Hotel (.1.1)
-      - India (.1.1.0)
-          Juliet (.1.1.0.0)
-      Kilo (.1.2)
+  Alpha (.0)
+- Bravo (.1)
+  - Charlie (.1.0)
+    + Delta (.1.0.0)
+      Golf (.1.0.1)
+  - Hotel (.1.1)
+    - India (.1.1.0)
+        Juliet (.1.1.0.0)
+    Kilo (.1.2)
 ```
 
-### Multiple Root Nodes
 ```js
 const pad = (n = 0, chars) => {
     let s = '';
@@ -202,16 +214,4 @@ flatten(tree).forEach((node, index) => {
 
     console.log('%s%s (%s)', padding, label, _state.path);
 });
-```
-
-```
-  Alpha (.0)
-- Bravo (.1)
-  - Charlie (.1.0)
-    + Delta (.1.0.0)
-      Golf (.1.0.1)
-  - Hotel (.1.1)
-    - India (.1.1.0)
-        Juliet (.1.1.0.0)
-    Kilo (.1.2)
 ```
