@@ -91,6 +91,7 @@ Kilo
   path=".1.2", parent=".1", children=0, depth=2, prefix="00", folded=0, more=0, last=1
 ```
 
+**File: examples/tree1.js**
 ```js
 flatten(tree).forEach((node, index) => {
     console.log('%s\n  path=%s, parent=%s, children=%d, depth=%d, prefix=%s, folded=%d, more=%d, last=%d',
@@ -121,6 +122,7 @@ flatten(tree).forEach((node, index) => {
     └── Kilo (.1.2)
 ```
 
+**File: examples/tree2.js**
 ```js
 flatten(tree).forEach((node, index) => {
     const { _state, label = '', children = [] } = node;
@@ -153,6 +155,7 @@ flatten(tree).forEach((node, index) => {
       Kilo (.1.2)
 ```
 
+**File: examples/tree3.js**
 ```js
 const pad = (n = 0, chars) => {
     let s = '';
@@ -193,6 +196,7 @@ flatten(tree).forEach((node, index) => {
     Kilo (.1.2)
 ```
 
+**File: examples/tree4.js**
 ```js
 const pad = (n = 0, chars) => {
     let s = '';
