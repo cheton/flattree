@@ -8,18 +8,25 @@ const pad = (n = 0, chars) => {
     while (n > 0) { s += chars; --n }
     return s;
 };
-
-flatten(tree.children).forEach((node, index) => {
-    const { label = '', _state = {}, children = [] } = node;
-
-    let padding = pad(_state.depth, '  ');
-    if (_state.folded) {
-        padding += '+ ';
-    } else if (children.length > 0) {
+const openNodes = [
+    '<root>',
+    'bravo',
+    'charlie',
+    'hotel',
+    'india'
+];
+flatten(tree.children, { openNodes: openNodes }).forEach((node, index) => {
+    const { label = '', state = {}, children = [] } = node;
+    const { more, open, path } = state;
+  
+    let padding = pad(state.depth * 2, ' ');
+    if (more && open) {
         padding += '- ';
+    } else if (more && !open) {
+        padding += '+ ';
     } else {
         padding += '  ';
     }
 
-    console.log('%s%s (%s)', padding, label, _state.path);
+    console.log('%s%s (%s)', padding, label, path);
 });

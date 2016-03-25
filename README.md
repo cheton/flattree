@@ -15,17 +15,20 @@ npm install --save flattree
 import { flatten } from 'flattree';
 
 const tree = {
+    id: 'fruit',
     label: 'Fruit',
-    state: {
-        isFolded: false
-    },
     children: [
-        { label: 'Apple' },
-        { label: 'Banana' }
+        { id: 'apple', label: 'Apple' },
+        { id: 'banana', label: 'Banana' }
     ]
 };
 
-const ft = flatten(tree); // tree can either be Object or Array
+const options = {
+    openAllNodes: false, // Defaults to false
+    openNodes: ['fruit']
+};
+
+const ft = flatten(tree, options /* optional */); // tree can either be Object or Array
 console.log(ft);
 ```
 
@@ -35,43 +38,51 @@ Given a hierarchical tree structure like below:
 
 ```json
 {
+  "id": "<root>",
   "label": "<root>",
   "children": [
     {
+      "id": "alpha",
       "label": "Alpha"
     },
     {
+      "id": "bravo",
       "label": "Bravo",
       "children": [
         {
+          "id": "charlie",
           "label": "Charlie",
           "children": [
             {
+              "id": "delta",
               "label": "Delta",
-              "state": {
-                "isFolded": true
-              },
               "children": [
                 {
+                  "id": "echo",
                   "label": "Echo"
                 },
                 {
+                  "id": "foxtrot",
                   "label": "Foxtrot"
                 }
               ]
             },
             {
+              "id": "golf",
               "label": "Golf"
             }
           ]
         },
         {
+          "id": "hotel",
           "label": "Hotel",
           "children": [
             {
+              "id": "india",
               "label": "India",
               "children": [
                 {
+                  "id": "juliet",
                   "label": "Juliet"
                 }
               ]
@@ -79,6 +90,7 @@ Given a hierarchical tree structure like below:
           ]
         },
         {
+          "id": "kilo",
           "label": "Kilo"
         }
       ]
@@ -90,46 +102,50 @@ Given a hierarchical tree structure like below:
 ### Flat List View
 File: [examples/test1.js](https://github.com/cheton/node-flattree/blob/master/examples/tree1.js)
 ```
-<root>: path="", parent=null, children=2, depth=0, prefix="", folded=0, more=1, last=1
-Alpha: path=".0", parent="", children=0, depth=1, prefix="0", folded=0, more=0, last=0
-Bravo: path=".1", parent="", children=3, depth=1, prefix="0", folded=0, more=1, last=1
-Charlie: path=".1.0", parent=".1", children=2, depth=2, prefix="00", folded=0, more=1, last=0
-Delta: path=".1.0.0", parent=".1.0", children=2, depth=3, prefix="001", folded=1, more=0, last=0
-Golf: path=".1.0.1", parent=".1.0", children=0, depth=3, prefix="001", folded=0, more=0, last=1
-Hotel: path=".1.1", parent=".1", children=1, depth=2, prefix="00", folded=0, more=1, last=0
-India: path=".1.1.0", parent=".1.1", children=1, depth=3, prefix="001", folded=0, more=1, last=1
-Juliet: path=".1.1.0.0", parent=".1.1.0", children=0, depth=4, prefix="0010", folded=0, more=0, last=1
-Kilo: path=".1.2", parent=".1", children=0, depth=2, prefix="00", folded=0, more=0, last=1
+<root>: path=".0", parent="", children=2, depth=0, prefix="0", last=1, more=1, open=1
+Alpha: path=".0.0", parent=".0", children=0, depth=1, prefix="00", last=0, more=0, open=1
+Bravo: path=".0.1", parent=".0", children=3, depth=1, prefix="00", last=1, more=1, open=1
+Charlie: path=".0.1.0", parent=".0.1", children=2, depth=2, prefix="000", last=0, more=1, open=1
+Delta: path=".0.1.0.0", parent=".0.1.0", children=2, depth=3, prefix="0001", last=0, more=1, open=1
+Echo: path=".0.1.0.0.0", parent=".0.1.0.0", children=0, depth=4, prefix="00011", last=0, more=0, open=1
+Foxtrot: path=".0.1.0.0.1", parent=".0.1.0.0", children=0, depth=4, prefix="00011", last=1, more=0, open=1
+Golf: path=".0.1.0.1", parent=".0.1.0", children=0, depth=3, prefix="0001", last=1, more=0, open=1
+Hotel: path=".0.1.1", parent=".0.1", children=1, depth=2, prefix="000", last=0, more=1, open=1
+India: path=".0.1.1.0", parent=".0.1.1", children=1, depth=3, prefix="0001", last=1, more=1, open=1
+Juliet: path=".0.1.1.0.0", parent=".0.1.1.0", children=0, depth=4, prefix="00010", last=1, more=0, open=1
+Kilo: path=".0.1.2", parent=".0.1", children=0, depth=2, prefix="000", last=1, more=0, open=1
 ```
 
 ### Nested Hierarchy
 File: [examples/test2.js](https://github.com/cheton/node-flattree/blob/master/examples/tree2.js)
 ```
-<root>
-  ├── Alpha (.0)
-  └─┬ Bravo (.1)
-    ├─┬ Charlie (.1.0)
-    | ├── Delta (.1.0.0)
-    | └── Golf (.1.0.1)
-    ├─┬ Hotel (.1.1)
-    | └─┬ India (.1.1.0)
-    |   └── Juliet (.1.1.0.0)
-    └── Kilo (.1.2)
+<root> (.0)
+  ├── Alpha (.0.0)
+  └─┬ Bravo (.0.1)
+    ├─┬ Charlie (.0.1.0)
+    | ├─┬ Delta (.0.1.0.0)
+    | | ├── Echo (.0.1.0.0.0)
+    | | └── Foxtrot (.0.1.0.0.1)
+    | └── Golf (.0.1.0.1)
+    ├─┬ Hotel (.0.1.1)
+    | └─┬ India (.0.1.1.0)
+    |   └── Juliet (.0.1.1.0.0)
+    └── Kilo (.0.1.2)
 ```
 
 ### Single Root Node
 File: [examples/test3.js](https://github.com/cheton/node-flattree/blob/master/examples/tree3.js)
 ```
-- <root>
-    Alpha (.0)
-  - Bravo (.1)
-    - Charlie (.1.0)
-      + Delta (.1.0.0)
-        Golf (.1.0.1)
-    - Hotel (.1.1)
-      - India (.1.1.0)
-          Juliet (.1.1.0.0)
-      Kilo (.1.2)
+- <root> (.0)
+    Alpha (.0.0)
+  - Bravo (.0.1)
+    - Charlie (.0.1.0)
+      + Delta (.0.1.0.0)
+        Golf (.0.1.0.1)
+    - Hotel (.0.1.1)
+      - India (.0.1.1.0)
+          Juliet (.0.1.1.0.0)
+      Kilo (.0.1.2)
 ```
 
 ### Multiple Root Nodes

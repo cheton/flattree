@@ -3,18 +3,18 @@ import path from 'path';
 import { flatten } from '../src';
 import tree from '../test/fixtures/tree.json';
 
-flatten(tree).forEach((node, index) => {
-    const { _state, label = '', children = [] } = node;
-    const { depth, last, more, path, prefixMask } = _state;
+flatten(tree, { openAllNodes: true }).forEach((node, index) => {
+    const { state, label = '', children = [] } = node;
+    const { depth, last, more, open, path, prefixMask } = state;
 
     if (depth === 0) {
-        console.log(label);
+        console.log('%s (%s)', label, path);
         return;
     }
 
-    const prefix = prefixMask.split('')
+    const prefix = prefixMask.substr(1).split('')
         .map(s => (Number(s) === 0) ? '  ' : '| ')
         .join('');
 
-    console.log('%s%s─%s %s (%s)', prefix, (last ? '└' : '├'), (more ? '┬' : '─'), label, path);
+    console.log('%s%s─%s %s (%s)', prefix, (last ? '└' : '├'), (more && open ? '┬' : '─'), label, path);
 });

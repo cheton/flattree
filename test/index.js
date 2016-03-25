@@ -12,148 +12,163 @@ const fixtures = {
 test('Flat list view', (t) => {
     const wanted = [
         {
+            id: '<root>',
             label: '<root>',
-            state: { isFolded: false },
             children: 2,
-            parent: null,
-            _state: {
-                path: '',
+            parent: '',
+            state: {
+                path: '.0',
                 depth: 0,
-                folded: false,
-                more: true,
                 last: true,
-                prefixMask: ''
+                more: true,
+                open: true,
+                prefixMask: '0'
             }
         },
         {
+            id: 'alpha',
             label: 'Alpha',
             children: 0,
-            parent: '',
-            _state: {
-                path: '.0',
+            parent: '.0',
+            state: {
+                path: '.0.0',
                 depth: 1,
-                folded: false,
-                more: false,
                 last: false,
-                prefixMask: '0'
+                more: false,
+                open: false,
+                prefixMask: '00'
             }
         },
         {
+            id: 'bravo',
             label: 'Bravo',
-            state: { isFolded: false },
             children: 3,
-            parent: '',
-            _state: {
-                path: '.1',
+            parent: '.0',
+            state: {
+                path: '.0.1',
                 depth: 1,
-                folded: false,
-                more: true,
                 last: true,
-                prefixMask: '0'
+                more: true,
+                open: true,
+                prefixMask: '00'
             }
         },
         {
+            id: 'charlie',
             label: 'Charlie',
             children: 2,
-            parent: '.1',
-            _state: {
-                path: '.1.0',
+            parent: '.0.1',
+            state: {
+                path: '.0.1.0',
                 depth: 2,
-                folded: false,
+                last: false,
                 more: true,
-                last: false,
-                prefixMask: '00'
+                open: true,
+                prefixMask: '000'
             }
         },
         {
+            id: 'delta',
             label: 'Delta',
-            state: { isFolded: true },
             children: 2,
-            parent: '.1.0',
-            _state: {
-                path: '.1.0.0',
+            parent: '.0.1.0',
+            state: {
+                path: '.0.1.0.0',
                 depth: 3,
-                folded: true,
-                more: false,
                 last: false,
-                prefixMask: '001'
+                more: true,
+                open: false,
+                prefixMask: '0001'
             }
         },
         {
+            id: 'golf',
             label: 'Golf',
-            parent: '.1.0',
+            parent: '.0.1.0',
             children: 0,
-            _state: {
-                path: '.1.0.1',
+            state: {
+                path: '.0.1.0.1',
                 depth: 3,
-                folded: false,
-                more: false,
                 last: true,
-                prefixMask: '001'
+                more: false,
+                open: false,
+                prefixMask: '0001'
             }
         },
         {
+            id: 'hotel',
             label: 'Hotel',
             children: 1,
-            parent: '.1',
-            _state: {
-                path: '.1.1',
+            parent: '.0.1',
+            state: {
+                path: '.0.1.1',
                 depth: 2,
-                folded: false,
-                more: true,
                 last: false,
-                prefixMask: '00'
+                more: true,
+                open: true,
+                prefixMask: '000'
             }
         },
         {
+            id: 'india',
             label: 'India',
             children: 1,
-            parent: '.1.1',
-            _state: {
-               path: '.1.1.0',
-               depth: 3,
-               folded: false,
-               more: true,
-               last: true,
-               prefixMask: '001'
+            parent: '.0.1.1',
+            state: {
+                path: '.0.1.1.0',
+                depth: 3,
+                last: true,
+                more: true,
+                open: true,
+                prefixMask: '0001'
             }
         },
         {
+            id: 'juliet',
             label: 'Juliet',
-            parent: '.1.1.0',
+            parent: '.0.1.1.0',
             children: 0,
-            _state: {
-                path: '.1.1.0.0',
+            state: {
+                path: '.0.1.1.0.0',
                 depth: 4,
-                folded: false,
-                more: false,
                 last: true,
-                prefixMask: '0010'
+                more: false,
+                open: false,
+                prefixMask: '00010'
             }
         },
         {
+            id: 'kilo',
             label: 'Kilo',
-            parent: '.1',
+            parent: '.0.1',
             children: 0,
-            _state: {
-                path: '.1.2',
+            state: {
+                path: '.0.1.2',
                 depth: 2,
-                folded: false,
-                more: false,
                 last: true,
-                prefixMask: '00'
+                more: false,
+                open: false,
+                prefixMask: '000'
             }
         }
     ];
     let found = [];
 
     const tree = JSON.parse(fixtures.tree);
-    flatten(tree).forEach((node, index) => {
+    const openNodes = [
+        '<root>',
+        'bravo',
+        'charlie',
+        'hotel',
+        'india'
+    ];
+    flatten(tree, { openNodes: openNodes }).forEach((node, index) => {
         let o = {
+            id: node.id,
             label: node.label,
-            parent: node.parent !== null ? node.parent._state.path : null,
+            parent: node.parent !== null ? node.parent.state.path : null,
             children: Object.keys(node.children).length,
-            _state: node._state
+            state: node.state
         };
         if (node.state !== undefined) {
             o.state = node.state;
@@ -167,38 +182,45 @@ test('Flat list view', (t) => {
 
 test('Nested hierarchies', (t) => {
     const wanted = [
-        '<root>',
-        '  ├── Alpha (.0)',
-        '  └─┬ Bravo (.1)',
-        '    ├─┬ Charlie (.1.0)',
-        '    | ├── Delta (.1.0.0)',
-        '    | └── Golf (.1.0.1)',
-        '    ├─┬ Hotel (.1.1)',
-        '    | └─┬ India (.1.1.0)',
-        '    |   └── Juliet (.1.1.0.0)',
-        '    └── Kilo (.1.2)',
+        '<root> (.0)',
+        '  ├── Alpha (.0.0)',
+        '  └─┬ Bravo (.0.1)',
+        '    ├─┬ Charlie (.0.1.0)',
+        '    | ├── Delta (.0.1.0.0)',
+        '    | └── Golf (.0.1.0.1)',
+        '    ├─┬ Hotel (.0.1.1)',
+        '    | └─┬ India (.0.1.1.0)',
+        '    |   └── Juliet (.0.1.1.0.0)',
+        '    └── Kilo (.0.1.2)',
         ''
     ].join('\n');
     let found = '';
 
     const tree = JSON.parse(fixtures.tree);
-    flatten(tree).forEach((node, index) => {
-        const { _state, label = '', children = [] } = node;
-        const { depth, last, more, path, prefixMask } = _state;
-        
+    const openNodes = [
+        '<root>',
+        'bravo',
+        'charlie',
+        'hotel',
+        'india'
+    ];
+    flatten(tree, { openNodes: openNodes }).forEach((node, index) => {
+        const { state, label = '', children = [] } = node;
+        const { depth, last, more, open, path, prefixMask } = state;
+
         if (depth === 0) {
-            found = found + label + '\n';
+            found = found + label + ' (' + path + ')' + '\n';
             return;
         }
-
-        const prefix = prefixMask.split('')
+        
+        const prefix = prefixMask.substr(1).split('')
             .map(s => (Number(s) === 0) ? '  ' : '| ')
             .join('');
 
         found = found + 
             prefix + 
             (last ? '└' : '├') + '─' +
-            (more ? '┬' : '─') + ' ' +
+            (more && open ? '┬' : '─') + ' ' +
             label +
             ' (' + path + ')' + '\n';
     });
@@ -209,38 +231,42 @@ test('Nested hierarchies', (t) => {
 
 test('Single root node', (t) => {
     const wanted = [
-        '- <root>',
-        '    Alpha (.0)',
-        '  - Bravo (.1)',
-        '    - Charlie (.1.0)',
-        '      + Delta (.1.0.0)',
-        '        Golf (.1.0.1)',
-        '    - Hotel (.1.1)',
-        '      - India (.1.1.0)',
-        '          Juliet (.1.1.0.0)',
-        '      Kilo (.1.2)',
+        '- <root> (.0)',
+        '    Alpha (.0.0)',
+        '  - Bravo (.0.1)',
+        '    - Charlie (.0.1.0)',
+        '      + Delta (.0.1.0.0)',
+        '        Golf (.0.1.0.1)',
+        '    - Hotel (.0.1.1)',
+        '      - India (.0.1.1.0)',
+        '          Juliet (.0.1.1.0.0)',
+        '      Kilo (.0.1.2)',
         ''
     ].join('\n');
     let found = '';
 
     const tree = JSON.parse(fixtures.tree);
-    flatten(tree).forEach((node, index) => {
-        const { label = '', _state = {}, children = [] } = node;
+    const openNodes = [
+        '<root>',
+        'bravo',
+        'charlie',
+        'hotel',
+        'india'
+    ];
+    flatten(tree, { openNodes: openNodes }).forEach((node, index) => {
+        const { label = '', state = {}, children = [] } = node;
+        const { more, open } = state;
       
-        let padding = pad('', _state.depth * 2, ' ');
-        if (_state.folded) {
-            padding += '+ ';
-        } else if (children.length > 0) {
+        let padding = pad('', state.depth * 2, ' ');
+        if (more && open) {
             padding += '- ';
+        } else if (more && !open) {
+            padding += '+ ';
         } else {
             padding += '  ';
         }
 
-        if (_state.depth === 0) {
-            found = found + padding + label + '\n';
-        } else {
-            found = found + padding + label + ' (' + _state.path + ')' + '\n';
-        }
+        found = found + padding + label + ' (' + state.path + ')' + '\n';
     });
 
     t.same(found, wanted);
@@ -263,19 +289,26 @@ test('Multiple root nodes', (t) => {
     let found = '';
 
     const tree = JSON.parse(fixtures.tree);
-    flatten(tree.children).forEach((node, index) => {
-        const { label = '', _state = {}, children = [] } = node;
+    const openNodes = [
+        'bravo',
+        'charlie',
+        'hotel',
+        'india'
+    ];
+    flatten(tree.children, { openNodes: openNodes }).forEach((node, index) => {
+        const { label = '', state = {}, children = [] } = node;
+        const { more, open } = state;
       
-        let padding = pad('', _state.depth * 2, ' ');
-        if (_state.folded) {
-            padding += '+ ';
-        } else if (children.length > 0) {
+        let padding = pad('', state.depth * 2, ' ');
+        if (more && open) {
             padding += '- ';
+        } else if (state.more) {
+            padding += '+ ';
         } else {
             padding += '  ';
         }
       
-        found = found + padding + label + ' (' + _state.path + ')' + '\n';
+        found = found + padding + label + ' (' + state.path + ')' + '\n';
     });
 
     t.same(found, wanted);
