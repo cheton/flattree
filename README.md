@@ -102,18 +102,18 @@ Given a hierarchical tree structure like below:
 ### Flat List View
 File: [examples/test1.js](https://github.com/cheton/node-flattree/blob/master/examples/tree1.js)
 ```
-<root>: path=".0", parent="", children=2, depth=0, prefix="0", last=1, more=1, open=1
-Alpha: path=".0.0", parent=".0", children=0, depth=1, prefix="00", last=0, more=0, open=1
-Bravo: path=".0.1", parent=".0", children=3, depth=1, prefix="00", last=1, more=1, open=1
-Charlie: path=".0.1.0", parent=".0.1", children=2, depth=2, prefix="000", last=0, more=1, open=1
-Delta: path=".0.1.0.0", parent=".0.1.0", children=2, depth=3, prefix="0001", last=0, more=1, open=1
-Echo: path=".0.1.0.0.0", parent=".0.1.0.0", children=0, depth=4, prefix="00011", last=0, more=0, open=1
-Foxtrot: path=".0.1.0.0.1", parent=".0.1.0.0", children=0, depth=4, prefix="00011", last=1, more=0, open=1
-Golf: path=".0.1.0.1", parent=".0.1.0", children=0, depth=3, prefix="0001", last=1, more=0, open=1
-Hotel: path=".0.1.1", parent=".0.1", children=1, depth=2, prefix="000", last=0, more=1, open=1
-India: path=".0.1.1.0", parent=".0.1.1", children=1, depth=3, prefix="0001", last=1, more=1, open=1
-Juliet: path=".0.1.1.0.0", parent=".0.1.1.0", children=0, depth=4, prefix="00010", last=1, more=0, open=1
-Kilo: path=".0.1.2", parent=".0.1", children=0, depth=2, prefix="000", last=1, more=0, open=1
+<root>: path=".0", parent="", children=2, total=11, depth=0, prefix="0", last=1, more=1, open=1
+Alpha: path=".0.0", parent=".0", children=0, total=0, depth=1, prefix="00", last=0, more=0, open=0
+Bravo: path=".0.1", parent=".0", children=3, total=9, depth=1, prefix="00", last=1, more=1, open=1
+Charlie: path=".0.1.0", parent=".0.1", children=2, total=4, depth=2, prefix="000", last=0, more=1, open=1
+Delta: path=".0.1.0.0", parent=".0.1.0", children=2, total=2, depth=3, prefix="0001", last=0, more=1, open=1
+Echo: path=".0.1.0.0.0", parent=".0.1.0.0", children=0, total=0, depth=4, prefix="00011", last=0, more=0, open=0
+Foxtrot: path=".0.1.0.0.1", parent=".0.1.0.0", children=0, total=0, depth=4, prefix="00011", last=1, more=0, open=0
+Golf: path=".0.1.0.1", parent=".0.1.0", children=0, total=0, depth=3, prefix="0001", last=1, more=0, open=0
+Hotel: path=".0.1.1", parent=".0.1", children=1, total=2, depth=2, prefix="000", last=0, more=1, open=1
+India: path=".0.1.1.0", parent=".0.1.1", children=1, total=1, depth=3, prefix="0001", last=1, more=1, open=1
+Juliet: path=".0.1.1.0.0", parent=".0.1.1.0", children=0, total=0, depth=4, prefix="00010", last=1, more=0, open=0
+Kilo: path=".0.1.2", parent=".0.1", children=0, total=0, depth=2, prefix="000", last=1, more=0, open=0
 ```
 
 ### Nested Hierarchy
