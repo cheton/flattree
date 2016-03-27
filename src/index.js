@@ -15,7 +15,7 @@ const flatten = (tree = [], options = {}) => {
         const depth = -1;
         const index = 0;
         const children = [].concat(tree);
-        const root = {
+        const root = (children.length > 0 && children[0].parent) || {
             label: '',
             parent: null,
             children: children,
@@ -58,14 +58,17 @@ const flatten = (tree = [], options = {}) => {
                 lastNodes[path] = true;
             }
 
-            node.state = node.state || {};
+            node.state = node.state || {
+                path: path,
+                depth: depth + 1,
+                last: last,
+                more: more,
+                open: open,
+                prefixMask: prefixMask
+            };
+
+            // Set node.state.total to zero
             node.state.total = 0;
-            node.state.path = path;
-            node.state.depth = depth + 1;
-            node.state.last = last;
-            node.state.more = more;
-            node.state.open = open;
-            node.state.prefixMask = prefixMask;
 
             { // Traversing up through its ancestors and update the total number of child nodes
                 let p = node;
