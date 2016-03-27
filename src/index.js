@@ -14,13 +14,16 @@ const flatten = (tree = [], options = {}) => {
     { // root node
         const depth = -1;
         const index = 0;
+        const children = [].concat(tree);
         const root = {
+            label: '',
+            parent: null,
+            children: children,
             state: {
                 path: '',
-                depth: depth
-            },
-            parent: null,
-            children: [].concat(tree)
+                depth: depth,
+                total: 0
+            }
         };
 
         stack.push([root, depth, index]);
@@ -29,20 +32,14 @@ const flatten = (tree = [], options = {}) => {
     while (stack.length > 0) {
         let [current, depth, index] = stack.pop();
 
-        if (depth >= 0) {
-            if (!options.openAllNodes && options.openNodes.indexOf(current.id) < 0) {
-                continue;
-            }
-        }
-
         while (index < current.children.length) {
             const node = current.children[index];
             node.parent = current;
             node.children = node.children || [];
 
             const path = current.state.path + '.' + index;
-            const open = options.openAllNodes || (options.openNodes.indexOf(node.id) >= 0);
-            const more = (Object.keys(node.children).length > 0);
+            const more = Object.keys(node.children).length > 0;
+            const open = more && (options.openAllNodes || (options.openNodes.indexOf(node.id) >= 0));
             const last = (index === current.children.length - 1);
             const prefixMask = ((prefix) => {
                 let mask = '';
@@ -61,14 +58,22 @@ const flatten = (tree = [], options = {}) => {
                 lastNodes[path] = true;
             }
 
-            node.state = {
-                path: path,
-                depth: depth + 1,
-                last: last,
-                more: more,
-                open: open,
-                prefixMask: prefixMask
-            };
+            node.state = node.state || {};
+            node.state.total = 0;
+            node.state.path = path;
+            node.state.depth = depth + 1;
+            node.state.last = last;
+            node.state.more = more;
+            node.state.open = open;
+            node.state.prefixMask = prefixMask;
+
+            { // Traversing up through its ancestors and update the total number of child nodes
+                let p = node;
+                while (p.parent !== null) {
+                    p.parent.state.total++;
+                    p = p.parent;
+                }
+            }
 
             flatten.push(node);
 
