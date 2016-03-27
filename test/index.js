@@ -22,7 +22,8 @@ test('Flat list view', (t) => {
                 last: true,
                 more: true,
                 open: true,
-                prefixMask: '0'
+                prefixMask: '0',
+                total: 11
             }
         },
         {
@@ -36,7 +37,8 @@ test('Flat list view', (t) => {
                 last: false,
                 more: false,
                 open: false,
-                prefixMask: '00'
+                prefixMask: '00',
+                total: 0
             }
         },
         {
@@ -50,7 +52,8 @@ test('Flat list view', (t) => {
                 last: true,
                 more: true,
                 open: true,
-                prefixMask: '00'
+                prefixMask: '00',
+                total: 9
             }
         },
         {
@@ -64,7 +67,8 @@ test('Flat list view', (t) => {
                 last: false,
                 more: true,
                 open: true,
-                prefixMask: '000'
+                prefixMask: '000',
+                total: 4
             }
         },
         {
@@ -77,8 +81,39 @@ test('Flat list view', (t) => {
                 depth: 3,
                 last: false,
                 more: true,
+                open: true,
+                prefixMask: '0001',
+                total: 2
+            }
+        },
+        {
+            id: 'echo',
+            label: 'Echo',
+            children: 0,
+            parent: '.0.1.0.0',
+            state: {
+                path: '.0.1.0.0.0',
+                depth: 4,
+                last: false,
+                more: false,
                 open: false,
-                prefixMask: '0001'
+                prefixMask: '00011',
+                total: 0
+            }
+        },
+        {
+            id: 'foxtrot',
+            label: 'Foxtrot',
+            children: 0,
+            parent: '.0.1.0.0',
+            state: {
+                path: '.0.1.0.0.1',
+                depth: 4,
+                last: true,
+                more: false,
+                open: false,
+                prefixMask: '00011',
+                total: 0
             }
         },
         {
@@ -92,7 +127,8 @@ test('Flat list view', (t) => {
                 last: true,
                 more: false,
                 open: false,
-                prefixMask: '0001'
+                prefixMask: '0001',
+                total: 0
             }
         },
         {
@@ -106,7 +142,8 @@ test('Flat list view', (t) => {
                 last: false,
                 more: true,
                 open: true,
-                prefixMask: '000'
+                prefixMask: '000',
+                total: 2
             }
         },
         {
@@ -120,7 +157,8 @@ test('Flat list view', (t) => {
                 last: true,
                 more: true,
                 open: true,
-                prefixMask: '0001'
+                prefixMask: '0001',
+                total: 1
             }
         },
         {
@@ -134,7 +172,8 @@ test('Flat list view', (t) => {
                 last: true,
                 more: false,
                 open: false,
-                prefixMask: '00010'
+                prefixMask: '00010',
+                total: 0
             }
         },
         {
@@ -148,21 +187,15 @@ test('Flat list view', (t) => {
                 last: true,
                 more: false,
                 open: false,
-                prefixMask: '000'
+                prefixMask: '000',
+                total: 0
             }
         }
     ];
     let found = [];
 
     const tree = JSON.parse(fixtures.tree);
-    const openNodes = [
-        '<root>',
-        'bravo',
-        'charlie',
-        'hotel',
-        'india'
-    ];
-    flatten(tree, { openNodes: openNodes }).forEach((node, index) => {
+    flatten(tree, { openAllNodes: true }).forEach((node, index) => {
         let o = {
             id: node.id,
             label: node.label,
@@ -186,7 +219,9 @@ test('Nested hierarchies', (t) => {
         '  ├── Alpha (.0.0)',
         '  └─┬ Bravo (.0.1)',
         '    ├─┬ Charlie (.0.1.0)',
-        '    | ├── Delta (.0.1.0.0)',
+        '    | ├─┬ Delta (.0.1.0.0)',
+        '    | | ├── Echo (.0.1.0.0.0)',
+        '    | | └── Foxtrot (.0.1.0.0.1)',
         '    | └── Golf (.0.1.0.1)',
         '    ├─┬ Hotel (.0.1.1)',
         '    | └─┬ India (.0.1.1.0)',
@@ -197,14 +232,7 @@ test('Nested hierarchies', (t) => {
     let found = '';
 
     const tree = JSON.parse(fixtures.tree);
-    const openNodes = [
-        '<root>',
-        'bravo',
-        'charlie',
-        'hotel',
-        'india'
-    ];
-    flatten(tree, { openNodes: openNodes }).forEach((node, index) => {
+    flatten(tree, { openAllNodes: true }).forEach((node, index) => {
         const { state, label = '', children = [] } = node;
         const { depth, last, more, open, path, prefixMask } = state;
 
