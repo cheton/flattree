@@ -32,7 +32,7 @@
   },
   "nyc": {
     "exclude": [
-      "src/polyfill.js"
+      "test/index.js"
     ]
   }
 }
