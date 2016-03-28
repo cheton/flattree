@@ -12,7 +12,7 @@ npm install --save flattree
 
 ## Usage
 ```js
-var flatten = require('flattree');
+var flatten = require('flattree').flatten;
 
 var tree = { // tree can either be object or array
     id: 'fruit',
@@ -33,7 +33,7 @@ console.log(nodes);
 This demostrates how to close a node and rebuild the list:
 ```js
 var _ = require('lodash');
-var flatten = require('flattree');
+var flatten = require('flattree').flatten;
 
 // Create the list
 var nodes = flatten(require('./test/fixtures/tree.json'), { openAllNodes: true });
