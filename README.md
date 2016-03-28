@@ -30,7 +30,7 @@ var nodes = flatten(tree, {
 console.log(nodes);
 ```
 
-An example that demostrates how to close a node and rebuild the list:
+This demostrates how to close a node and rebuild the list:
 ```js
 var _ = require('lodash');
 var flatten = require('flattree');
