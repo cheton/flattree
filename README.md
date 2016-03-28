@@ -12,8 +12,8 @@ npm install --save flattree
 
 ## Usage
 ```js
-var _ = require('lodash');
 var flatten = require('flattree');
+
 var tree = { // tree can either be object or array
     id: 'fruit',
     label: 'Fruit',
@@ -32,6 +32,12 @@ console.log(nodes);
 
 An example that demostrates how to close a node and rebuild the list:
 ```js
+var _ = require('lodash');
+var flatten = require('flattree');
+
+// Create the list
+var nodes = flatten(require('./test/fixtures/tree.json'), { openAllNodes: true });
+
 // Find the first node with an id attribute that equals to 'banana'
 var index = _.findIndex(nodes, { 'id': 'banana' });
 var node = nodes[index];
@@ -39,9 +45,9 @@ var parentIndex = _.lastIndexOf(nodes, node.parent, index);
 var parent = nodes[parentIndex];
 var previousTotal = parent.state.total;
 
-// Close the node by passing empty options value
-// It will return all of its sibling nodes if the node's parent have two or more child nodes
+// Close the node by passing empty options
 var siblingNodes = flatten(node);
+// The above will return all of its sibling nodes if the node's parent have two or more child nodes.
 
 // Rebuild the list
 nodes.splice.apply(nodes, [parentIndex + 1, previousTotal].concat(siblingNodes));
