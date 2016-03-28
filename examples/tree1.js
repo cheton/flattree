@@ -12,7 +12,7 @@ flatten(tree, { openAllNodes: true }).forEach((node, index) => {
         node.state.total,
         node.state.depth,
         JSON.stringify(node.state.prefixMask),
-        node.state.last,
+        node.state.lastChild,
         node.state.more,
         node.state.open
     );
