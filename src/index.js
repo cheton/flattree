@@ -1,32 +1,70 @@
-// @param {object|array} tree The tree object (or array)
+// @param {object|array} nodes The tree nodes
 // @param {object} [options] The options object
 // @param {boolean} [options.openAllNodes] True to open all nodes. Defaults to false.
 // @param {array} [options.openNodes] An array that contains the ids of open nodes
 // @return {array}
-const flatten = (tree = [], options = {}) => {
+const flatten = (nodes = [], options = {}) => {
+    nodes = [].concat(nodes);
+
     const flatten = [];
     const stack = [];
-    const lastNodes = {};
+    const pool = {
+        lastChild: {}
+    };
 
     options.openAllNodes = !!options.openAllNodes;
     options.openNodes = options.openNodes || [];
+    options.throwOnError = !!options.throwOnError;
 
     { // root node
-        const depth = -1;
+        const firstNode = (nodes.length > 0) ? nodes[0] : null;
+        const parent = firstNode ? firstNode.parent : null;
         const index = 0;
-        const children = [].concat(tree);
-        const root = (children.length > 0 && children[0].parent) || {
+        const root = parent || { // defaults
             label: '',
             parent: null,
-            children: children,
+            children: nodes,
             state: {
+                depth: -1,
                 path: '',
-                depth: depth,
                 total: 0
             }
         };
 
-        stack.push([root, depth, index]);
+        if (root === parent) {
+            const subtotal = (root.state.total || 0);
+
+            // Traversing up through its ancestors
+            let p = root;
+            while (p) {
+                const { path, lastChild, total = 0 } = p.state;
+
+                // Rebuild the lastChild pool
+                if (path && lastChild) {
+                    pool.lastChild[path] = true;
+                }
+
+                // Subtract the number 'subtotal' from the total of the root node and all its ancestors
+                p.state.total = (total - subtotal);
+                if (p.state.total < 0) {
+                    if (options.throwOnError) {
+                        throw new Error('The node might have been corrupted: id=' + JSON.stringify(p.id) + ', state=' + JSON.stringify(p.state));
+                    } else {
+                        console && console.log('Error: The node might have been corrupted: id=%s, label=%s, parent=%s, children=%s, state=%s',
+                            JSON.stringify(p.id),
+                            JSON.stringify(p.label),
+                            p.parent,
+                            p.children,
+                            JSON.stringify(p.state),
+                        );
+                    }
+                }
+
+                p = p.parent;
+            }
+        }
+
+        stack.push([root, root.state.depth, index]);
     }
 
     while (stack.length > 0) {
@@ -40,12 +78,12 @@ const flatten = (tree = [], options = {}) => {
             const path = current.state.path + '.' + index;
             const more = Object.keys(node.children).length > 0;
             const open = more && (options.openAllNodes || (options.openNodes.indexOf(node.id) >= 0));
-            const last = (index === current.children.length - 1);
+            const lastChild = (index === current.children.length - 1);
             const prefixMask = ((prefix) => {
                 let mask = '';
                 while (prefix.length > 0) {
                     prefix = prefix.replace(/\.\d+$/, '');
-                    if (!prefix || lastNodes[prefix]) {
+                    if (!prefix || pool.lastChild[prefix]) {
                         mask = '0' + mask;
                     } else {
                         mask = '1' + mask;
@@ -54,21 +92,19 @@ const flatten = (tree = [], options = {}) => {
                 return mask;
             })(path);
 
-            if (last) {
-                lastNodes[path] = true;
+            if (lastChild) {
+                pool.lastChild[path] = true;
             }
 
-            node.state = node.state || {
-                path: path,
+            node.state = {
                 depth: depth + 1,
-                last: last,
+                lastChild: lastChild,
                 more: more,
                 open: open,
-                prefixMask: prefixMask
+                path: path,
+                prefixMask: prefixMask,
+                total: 0
             };
-
-            // Set node.state.total to zero
-            node.state.total = 0;
 
             { // Traversing up through its ancestors and update the total number of child nodes
                 let p = node;
