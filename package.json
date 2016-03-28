@@ -15,7 +15,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cheton/node-flattree.git"
+    "url": "git+https://github.com/cheton/flattree.git"
   },
   "devDependencies": {
     "babel-cli": "^6.6.5",
