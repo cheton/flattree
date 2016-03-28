@@ -12,24 +12,41 @@ npm install --save flattree
 
 ## Usage
 ```js
-import { flatten } from 'flattree';
-
-const tree = {
+var _ = require('lodash');
+var flatten = require('flattree');
+var tree = { // tree can either be object or array
     id: 'fruit',
     label: 'Fruit',
     children: [
         { id: 'apple', label: 'Apple' },
-        { id: 'banana', label: 'Banana' }
+        { id: 'banana', label: 'Banana', children: [{ id: 'cherry', label: 'Cherry' }] }
     ]
 };
-
-const options = {
+var nodes = flatten(tree, {
+    openNodes: ['fruit', 'banana'],
     openAllNodes: false, // Defaults to false
-    openNodes: ['fruit']
-};
+    throwOnEerror: false // Defaults to false
+});
+console.log(nodes);
+```
 
-const ft = flatten(tree, options /* optional */); // tree can either be Object or Array
-console.log(ft);
+An example that demostrates how to close a node and rebuild the list:
+```js
+// Find the first node with an id attribute that equals to 'banana'
+var index = _.findIndex(nodes, { 'id': 'banana' });
+var node = nodes[index];
+var parentIndex = _.lastIndexOf(nodes, node.parent, index);
+var parent = nodes[parentIndex];
+var previousTotal = parent.state.total;
+
+// Close the node by passing empty options value
+// It will return all of its sibling nodes if the node's parent have two or more child nodes
+var siblingNodes = flatten(node);
+
+// Rebuild the list
+nodes.splice.apply(nodes, [parentIndex + 1, previousTotal].concat(siblingNodes));
+
+console.log(nodes);
 ```
 
 ## Examples
