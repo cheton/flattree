@@ -1,4 +1,4 @@
-# node-flattree [![build status](https://travis-ci.org/cheton/node-flattree.svg?branch=master)](https://travis-ci.org/cheton/node-flattree) [![Coverage Status](https://coveralls.io/repos/cheton/node-flattree/badge.svg)](https://coveralls.io/r/cheton/node-flattree)
+# flattree [![build status](https://travis-ci.org/cheton/flattree.svg?branch=master)](https://travis-ci.org/cheton/flattree) [![Coverage Status](https://coveralls.io/repos/cheton/flattree/badge.svg)](https://coveralls.io/r/cheton/flattree)
 [![NPM](https://nodei.co/npm/flattree.png?downloads=true&stars=true)](https://nodei.co/npm/flattree/)
 
 Convert hierarchical tree structure to flat structure.
@@ -100,7 +100,7 @@ Given a hierarchical tree structure like below:
 ```
 
 ### Flat List View
-File: [examples/test1.js](https://github.com/cheton/node-flattree/blob/master/examples/tree1.js)
+File: [examples/test1.js](https://github.com/cheton/flattree/blob/master/examples/tree1.js)
 ```
 <root>: path=".0", parent="", children=2, total=11, depth=0, prefix="0", last=1, more=1, open=1
 Alpha: path=".0.0", parent=".0", children=0, total=0, depth=1, prefix="00", last=0, more=0, open=0
@@ -117,7 +117,7 @@ Kilo: path=".0.1.2", parent=".0.1", children=0, total=0, depth=2, prefix="000", 
 ```
 
 ### Nested Hierarchy
-File: [examples/test2.js](https://github.com/cheton/node-flattree/blob/master/examples/tree2.js)
+File: [examples/test2.js](https://github.com/cheton/flattree/blob/master/examples/tree2.js)
 ```
 <root> (.0)
   ├── Alpha (.0.0)
@@ -134,7 +134,7 @@ File: [examples/test2.js](https://github.com/cheton/node-flattree/blob/master/ex
 ```
 
 ### Single Root Node
-File: [examples/test3.js](https://github.com/cheton/node-flattree/blob/master/examples/tree3.js)
+File: [examples/test3.js](https://github.com/cheton/flattree/blob/master/examples/tree3.js)
 ```
 - <root> (.0)
     Alpha (.0.0)
@@ -149,7 +149,7 @@ File: [examples/test3.js](https://github.com/cheton/node-flattree/blob/master/ex
 ```
 
 ### Multiple Root Nodes
-File: [examples/test4.js](https://github.com/cheton/node-flattree/blob/master/examples/tree4.js)
+File: [examples/test4.js](https://github.com/cheton/flattree/blob/master/examples/tree4.js)
 ```
   Alpha (.0)
 - Bravo (.1)
