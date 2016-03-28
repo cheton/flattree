@@ -77,7 +77,21 @@ const flatten = (nodes = [], options = {}) => {
 
             const path = current.state.path + '.' + index;
             const more = Object.keys(node.children).length > 0;
-            const open = more && (options.openAllNodes || (options.openNodes.indexOf(node.id) >= 0));
+            const open = more && (() => {
+                const { openAllNodes, openNodes } = options;
+                if (openAllNodes) {
+                    return true;
+                }
+                // determine by node object
+                if (openNodes.indexOf(node) >= 0) {
+                    return true;
+                }
+                // determine by node id
+                if (openNodes.indexOf(node.id) >= 0) {
+                    return true;
+                }
+                return false;
+            })();
             const lastChild = (index === current.children.length - 1);
             const prefixMask = ((prefix) => {
                 let mask = '';
