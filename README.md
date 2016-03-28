@@ -41,16 +41,23 @@ var nodes = flatten(require('./test/fixtures/tree.json'), { openAllNodes: true }
 // Find the first node with an id attribute that equals to 'banana'
 var index = _.findIndex(nodes, { 'id': 'banana' });
 var node = nodes[index];
-var parentIndex = _.lastIndexOf(nodes, node.parent, index);
-var parent = nodes[parentIndex];
-var previousTotal = parent.state.total;
 
-// Close the node by passing empty options
-var siblingNodes = flatten(node);
-// The above will return all of its sibling nodes if the node's parent have two or more child nodes.
+if (node.state.depth > 0) { // (node.state.depth > 0)
+    var parentIndex = _.lastIndexOf(nodes, node.parent, index);
+    var parent = nodes[parentIndex];
+    var previousTotal = parent.state.total;
 
-// Rebuild the list
-nodes.splice.apply(nodes, [parentIndex + 1, previousTotal].concat(siblingNodes));
+    // Close the node by passing empty options
+    var siblingNodes = flatten(node);
+    // The above will return all of its sibling nodes if the node's parent have two or more child nodes.
+
+    // Rebuild the list
+    nodes.splice.apply(nodes, [parentIndex + 1, previousTotal].concat(siblingNodes));
+} else { // (node.state.depth === 0)
+    nodes.splice(index + 1, node.state.total);
+    node.state.open = false;
+    node.state.total = 0;
+}
 
 console.log(nodes);
 ```
