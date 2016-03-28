@@ -507,6 +507,9 @@ test('Open all nodes, close two nodes, and rebuild the list', (t) => {
     // Step 2. Close two nodes: 'delta' and 'india'
     openNodes = _.without(openNodes, 'delta', 'india');
 
+    // Returns a new mapped array containing nodes
+    openNodes = _.map(openNodes, id => _.find(nodes, { id: id }));
+
     // It will return all of its sibling nodes if the node's parent have two or more child nodes
     let siblingNodes = flatten(node, { openNodes: openNodes });
 
