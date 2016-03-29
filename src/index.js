@@ -1,3 +1,15 @@
+const extend = (target, ...sources) => {
+    sources.forEach((source) => {
+        for (let key in source) {
+            if (source.hasOwnProperty(key)) {
+                target[key] = source[key];
+            }
+        }
+    });
+
+    return target;
+};
+
 // @param {object|array} nodes The tree nodes
 // @param {object} [options] The options object
 // @param {boolean} [options.openAllNodes] True to open all nodes. Defaults to false.
@@ -110,7 +122,8 @@ const flatten = (nodes = [], options = {}) => {
                 pool.lastChild[path] = true;
             }
 
-            node.state = {
+            // This allows you to put extra information to node.state
+            node.state = extend({}, node.state, {
                 depth: depth + 1,
                 lastChild: lastChild,
                 more: more,
@@ -118,7 +131,7 @@ const flatten = (nodes = [], options = {}) => {
                 path: path,
                 prefixMask: prefixMask,
                 total: 0
-            };
+            });
 
             { // Traversing up through its ancestors and update the total number of child nodes
                 let p = node;
