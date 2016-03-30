@@ -44,7 +44,7 @@ var nodes = flatten(require('./test/fixtures/tree.json'));
 var index = _.findIndex(nodes, { 'id': 'fruit' });
 var node = nodes[index];
 
-var siblingNodes = flatten(node.children, { openNodes: this.state.openNodes });
+var siblingNodes = flatten(node.children, { openNodes: ['fruit'] });
 
 // Insert an array inside another array
 nodes.splice.apply(nodes, [index + 1, 0].concat(siblingNodes));
