@@ -34,6 +34,22 @@ console.log(nodes);
 
 This demostrates how to open a node and rebuild the tree:
 ```js
+var _ = require('lodash');
+var flatten = require('flattree').flatten;
+
+// Create the list
+var nodes = flatten(require('./test/fixtures/tree.json'));
+
+// Find the first node with an id attribute that equals to 'fruit'
+var index = _.findIndex(nodes, { 'id': 'fruit' });
+var node = nodes[index];
+
+var siblingNodes = flatten(node.children, { openNodes: this.state.openNodes });
+
+// Insert an array inside another array
+nodes.splice.apply(nodes, [index + 1, 0].concat(siblingNodes));
+
+console.log(nodes);
 ```
 
 This demostrates how to close a node and rebuild the tree:
@@ -57,7 +73,7 @@ while (p) {
 }
 
 // Remove elements from an array
-nodes.splice(nodeIndex + 1, deleteCount);
+nodes.splice(index + 1, deleteCount);
 
 console.log(nodes);
 ```
