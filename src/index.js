@@ -38,7 +38,11 @@ const flatten = (nodes = [], options = {}) => {
             children: nodes,
             state: {
                 depth: -1,
+                lastChild: true,
+                more: nodes.length > 0,
+                open: nodes.length > 0,
                 path: '',
+                prefixMask: '',
                 total: 0
             }
         };
@@ -133,7 +137,24 @@ const flatten = (nodes = [], options = {}) => {
                 total: 0
             });
 
-            { // Traversing up through its ancestors and update the total number of child nodes
+            let parentDidOpen = true;
+
+            { // Check the open state from its ancestors
+                let p = node;
+                while (p.parent !== null) {
+                    if (p.parent.state.open === false) {
+                        parentDidOpen = false;
+                        break;
+                    }
+                    p = p.parent;
+                }
+            }
+
+            if (parentDidOpen) {
+                // Push the node to flatten list only if all of its parent nodes have the open state set to true
+                flatten.push(node);
+
+                // Update the total number of visible child nodes
                 let p = node;
                 while (p.parent !== null) {
                     p.parent.state.total++;
@@ -141,13 +162,7 @@ const flatten = (nodes = [], options = {}) => {
                 }
             }
 
-            flatten.push(node);
-
             ++index;
-
-            if (more && !open) {
-                continue;
-            }
 
             if (more) {
                 // Push back parent node to the stack that will be able to continue
