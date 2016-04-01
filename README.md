@@ -32,7 +32,27 @@ var nodes = flatten(tree, {
 console.log(nodes);
 ```
 
-This demostrates how to close a node and rebuild the list:
+This demostrates how to open a node and rebuild the tree:
+```js
+var _ = require('lodash');
+var flatten = require('flattree').flatten;
+
+// Create the list
+var nodes = flatten(require('./test/fixtures/tree.json'));
+
+// Find the first node with an id attribute that equals to 'fruit'
+var index = _.findIndex(nodes, { 'id': 'fruit' });
+var node = nodes[index];
+
+var siblingNodes = flatten(node.children, { openNodes: ['fruit'] });
+
+// Insert an array inside another array
+nodes.splice.apply(nodes, [index + 1, 0].concat(siblingNodes));
+
+console.log(nodes);
+```
+
+This demostrates how to close a node and rebuild the tree:
 ```js
 var _ = require('lodash');
 var flatten = require('flattree').flatten;
@@ -43,23 +63,17 @@ var nodes = flatten(require('./test/fixtures/tree.json'), { openAllNodes: true }
 // Find the first node with an id attribute that equals to 'banana'
 var index = _.findIndex(nodes, { 'id': 'banana' });
 var node = nodes[index];
+var deleteCount = node.state.total;
 
-if (node.state.depth > 0) { // (node.state.depth > 0)
-    var parentIndex = _.lastIndexOf(nodes, node.parent, index);
-    var parent = nodes[parentIndex];
-    var previousTotal = parent.state.total;
-
-    // Close the node by passing empty options
-    var siblingNodes = flatten(node);
-    // The above will return all of its sibling nodes if the node's parent have two or more child nodes.
-
-    // Rebuild the list
-    nodes.splice.apply(nodes, [parentIndex + 1, previousTotal].concat(siblingNodes));
-} else { // (node.state.depth === 0)
-    nodes.splice(index + 1, node.state.total);
-    node.state.open = false;
-    node.state.total = 0;
+// Traversing up through ancestors to subtract node.state.total
+var p = node;
+while (p) {
+    p.state.total = (p.state.total - deleteCount);
+    p = p.parent;
 }
+
+// Remove elements from an array
+nodes.splice(index + 1, deleteCount);
 
 console.log(nodes);
 ```
