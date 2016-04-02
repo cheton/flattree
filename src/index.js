@@ -1,14 +1,5 @@
-const extend = (target, ...sources) => {
-    sources.forEach((source) => {
-        for (let key in source) {
-            if (source.hasOwnProperty(key)) {
-                target[key] = source[key];
-            }
-        }
-    });
-
-    return target;
-};
+import extend from './extend';
+import Node from './node';
 
 // @param {object|array} nodes The tree nodes
 // @param {object} [options] The options object
@@ -29,10 +20,12 @@ const flatten = (nodes = [], options = {}) => {
     options.throwOnError = !!options.throwOnError;
 
     { // root node
-        const firstNode = (nodes.length > 0) ? nodes[0] : null;
-        const parent = firstNode ? firstNode.parent : null;
-        const index = 0;
-        const root = parent || { // defaults
+        let firstNode = (nodes.length > 0) ? nodes[0] : null;
+        let parentNode = firstNode ? firstNode.parent : null;
+        if (parentNode && !(parentNode instanceof Node)) {
+            parentNode = new Node(parentNode);
+        }
+        const rootNode = parentNode || new Node({ // defaults
             label: '',
             parent: null,
             children: nodes,
@@ -41,13 +34,13 @@ const flatten = (nodes = [], options = {}) => {
                 path: '',
                 total: 0
             }
-        };
+        });
 
-        if (root === parent) {
-            const subtotal = (root.state.total || 0);
+        if (rootNode === parentNode) {
+            const subtotal = (rootNode.state.total || 0);
 
             // Traversing up through its ancestors
-            let p = root;
+            let p = rootNode;
             while (p) {
                 const { path, lastChild, total = 0 } = p.state;
 
@@ -76,14 +69,17 @@ const flatten = (nodes = [], options = {}) => {
             }
         }
 
-        stack.push([root, root.state.depth, index]);
+        stack.push([rootNode, rootNode.state.depth, 0]);
     }
 
     while (stack.length > 0) {
         let [current, depth, index] = stack.pop();
 
         while (index < current.children.length) {
-            const node = current.children[index];
+            let node = current.children[index];
+            if (!(node instanceof Node)) {
+                node = new Node(node);
+            }
             node.parent = current;
             node.children = node.children || [];
 
