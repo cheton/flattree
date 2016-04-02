@@ -12,11 +12,20 @@ class Node {
 
         this.children = this.children || [];
     }
+    // Gets the parent node.
+    // @return {object} The parent node.
     getParent() {
         return this.parent;
     }
-    getChildren() {
+    // Gets the child nodes.
+    // @return {array} An array of child nodes.
+    getChildNodes() {
         return this.children;
+    }
+    // Checks if this node has children.
+    // @return {boolean} true if the node has child nodes; otherwise, false.
+    hasChildNodes() {
+        return this.children.length > 0;
     }
     // Gets the first child node.
     // @return {object} Returns the first child node on success, null otherwise.
