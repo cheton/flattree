@@ -1,5 +1,5 @@
-import { extend } from './extend';
-import { Node } from './node';
+import extend from './extend';
+import Node from './node';
 
 // @param {object|array} nodes The tree nodes
 // @param {object} [options] The options object
