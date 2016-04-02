@@ -4,13 +4,24 @@ import fs from 'fs';
 import path from 'path';
 import util from 'util';
 import pad from 'lodash/pad';
-import { flatten } from '../src';
+import extend from '../src/extend';
+import flatten from '../src/flatten';
+import Node from '../src/node';
 
 const fixtures = {
     tree: fs.readFileSync(path.resolve(__dirname, 'fixtures/tree.json'))
 };
 
-test('Flat list view', (t) => {
+test('[extend] Cannot convert undefined or null to object', (t) => {
+    try {
+        extend(null);
+    } catch (err) {
+        t.same(err, new TypeError('Cannot convert undefined or null to object'));
+    }
+    t.end();
+});
+
+test('[flatten] Flat list view', (t) => {
     const wanted = [
         {
             id: '<root>',
@@ -214,7 +225,7 @@ test('Flat list view', (t) => {
     t.end();
 });
 
-test('Nested hierarchies', (t) => {
+test('[flatten] Nested hierarchies', (t) => {
     const wanted = [
         '<root> (.0)',
         '  ├── Alpha (.0.0)',
@@ -258,7 +269,7 @@ test('Nested hierarchies', (t) => {
     t.end();
 });
 
-test('Single root node', (t) => {
+test('[flatten] Single root node', (t) => {
     const wanted = [
         '- <root> (.0)',
         '    Alpha (.0.0)',
@@ -302,7 +313,7 @@ test('Single root node', (t) => {
     t.end();
 });
 
-test('Multiple root nodes', (t) => {
+test('[flatten] Multiple root nodes', (t) => {
     const wanted = [
         '  Alpha (.0)',
         '- Bravo (.1)',
@@ -344,7 +355,7 @@ test('Multiple root nodes', (t) => {
     t.end();
 });
 
-test('Open all nodes, close two nodes, and rebuild the list', (t) => {
+test('[flatten] Open all nodes, close two nodes, and rebuild the list', (t) => {
     const wanted = [
         {
             id: '<root>',
@@ -534,7 +545,7 @@ test('Open all nodes, close two nodes, and rebuild the list', (t) => {
     t.end();
 });
 
-test('Corrupted parent node', (t) => {
+test('[flatten] Corrupted parent node', (t) => {
     const tree = JSON.parse(fixtures.tree);
     let nodes = flatten(tree, { openAllNodes: true });
 
@@ -552,7 +563,12 @@ test('Corrupted parent node', (t) => {
         try {
             // data corruption
             parent.parent.state.total = 0;
+            const originalConsoleLogger = console.log;
+            console.log = (msg) => {
+                t.same(msg, 'Error: The node might have been corrupted: id=%s, label=%s, parent=%s, children=%s, state=%s');
+            };
             flatten(node, { openAllNodes: true, throwOnError: false });
+            console.log = originalConsoleLogger;
         } catch (e) {
             err = e;
         }
@@ -576,3 +592,52 @@ test('Corrupted parent node', (t) => {
     t.end();
 });
 
+test('[flatten] Ensure the parent node is an instance of Node after calling flatten', (t) => {
+    const tree = JSON.parse(fixtures.tree);
+    const nodes = flatten(tree, { openAllNodes: true });
+    t.assert(nodes[0].parent instanceof Node);
+
+    const { id, label, parent, children, state } = nodes[0].parent;
+    nodes[0].parent = { id, label, parent, children, state };
+    t.assert(!(nodes[0].parent instanceof Node));
+
+    flatten(nodes[0].parent.children, { openAllNodes: true });
+    t.assert(nodes[0].parent instanceof Node);
+
+    t.end();
+});
+
+test('[node] getChildren/getParent/getFirstChild/getPreviousSibling/getNextSibling', (t) => {
+    const tree = JSON.parse(fixtures.tree);
+    const nodes = flatten(tree, { openAllNodes: true });
+    const root = _.find(nodes, node => node.id === '<root>');
+    const alpha = _.find(nodes, node => node.id === 'alpha');
+    const bravo = _.find(nodes, node => node.id === 'bravo');
+
+    // getChildren
+    t.same(root.getChildren().length, 2);
+    t.same(root.getChildren()[0], alpha);
+    t.same(root.getChildren()[1], bravo);
+
+    // getParent
+    t.same(alpha.getParent(), root);
+    t.same(alpha.getParent().getParent(), root.parent);
+    t.same(alpha.getParent().getParent().getParent(), null);
+
+    // getFirstChild
+    t.same(root.getFirstChild(), alpha);
+
+    // getPreviousSibling
+    t.same(alpha.getPreviousSibling(), null);
+    t.same(bravo.getPreviousSibling(), alpha);
+
+    // getNextSibling
+    t.same(alpha.getNextSibling(), bravo);
+    t.same(bravo.getNextSibling(), null);
+
+    // Combinations
+    t.same(alpha.getNextSibling().getNextSibling(), null);
+    t.same(alpha.getNextSibling().getPreviousSibling(), alpha);
+
+    t.end();
+});
