@@ -24,12 +24,13 @@ var tree = { // tree can either be object or array
         { id: 'banana', label: 'Banana', children: [{ id: 'cherry', label: 'Cherry' }] }
     ]
 };
-var nodes = flatten(tree, {
+
+flatten(tree, {
     openNodes: ['fruit', 'banana'],
     openAllNodes: false, // Defaults to false
     throwOnEerror: false // Defaults to false
 });
-console.log(nodes);
+// → [Node { id: 'fruit', ...}, Node { id: 'apple', ...}, Node { id: 'banana', ...}, Node { id: 'cherry', ...}]
 ```
 
 This demostrates how to open a node and rebuild the tree:
@@ -39,6 +40,7 @@ var flatten = require('flattree').flatten;
 
 // Create the list
 var nodes = flatten(require('./test/fixtures/tree.json'));
+// → [Node { id: 'fruit', ...}]
 
 // Find the first node with an id attribute that equals to 'fruit'
 var index = _.findIndex(nodes, { 'id': 'fruit' });
@@ -50,6 +52,7 @@ var siblingNodes = flatten(node.children, { openNodes: ['fruit'] });
 nodes.splice.apply(nodes, [index + 1, 0].concat(siblingNodes));
 
 console.log(nodes);
+// → [Node { id: 'fruit', ...}, Node { id: 'apple', ...}, Node { id: 'banana', ...}]
 ```
 
 This demostrates how to close a node and rebuild the tree:
@@ -59,6 +62,7 @@ var flatten = require('flattree').flatten;
 
 // Create the list
 var nodes = flatten(require('./test/fixtures/tree.json'), { openAllNodes: true });
+// → [Node { id: 'fruit', ...}, Node { id: 'apple', ...}, Node { id: 'banana', ...}, Node { id: 'cherry', ...}]
 
 // Find the first node with an id attribute that equals to 'banana'
 var index = _.findIndex(nodes, { 'id': 'banana' });
@@ -76,6 +80,7 @@ while (p) {
 nodes.splice(index + 1, deleteCount);
 
 console.log(nodes);
+// → [Node { id: 'fruit', ...}, Node { id: 'apple', ...}, Node { id: 'banana', ...}]
 ```
 
 ## Examples
