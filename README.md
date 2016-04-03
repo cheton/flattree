@@ -207,3 +207,103 @@ File: [examples/test4.js](https://github.com/cheton/flattree/blob/master/example
         Juliet (.1.1.0.0)
     Kilo (.1.2)
 ```
+
+## Node API
+
+#### node.getChildAt(index)
+Gets a child node at the specified index.
+
+**Returns**<br>
+<i>(Object)</i>: Returns an object that defines the child node, null otherwise.
+
+**Example**<br>
+```js
+node.getChildAt(-1);
+// → null
+node.getChildAt(0);
+// → Node {}
+```
+
+#### node.getChildren() 
+Gets the child nodes.
+
+**Returns**<br>
+<i>(Array)</i>: Returns an array of objects that define the nodes.
+
+**Example**<br>
+```js
+node.getChildren();
+// → [Node {}, Node {}]
+```
+
+#### node.getFirstChild()
+Gets the first child node.
+
+**Returns**<br>
+<i>(Object)</i>: Returns an object that defines the node, null otherwise.
+
+**Example**<br>
+```js
+node.getFirstChild();
+// Node { }
+```
+
+#### node.getLastChild()
+Gets the last child node.
+
+**Returns**<br>
+<i>(Object)</i>: Returns an object that defines the node, null otherwise.
+
+**Example**<br>
+```js
+node.getLastChild();
+// Node {}
+```
+
+#### node.getNextSibling()
+Gets the next sibling node.
+
+**Returns**<br>
+<i>(Object)</i>: Returns an object that defines the node, null otherwise.
+
+**Example**<br>
+```js
+node.getNextSibling();
+// Node { }
+```
+
+#### node.getParent()
+Gets the parent node.
+
+**Returns**<br>
+<i>(Object)</i>: Returns an object that defines the node, null otherwise.
+
+**Example**<br>
+```js
+node.getParent();
+// Node {}
+```
+
+#### node.getPreviousSibling()
+Gets the previous sibling node.
+
+**Returns**<br>
+<i>(Object)</i>: Returns an object that defines the node, null otherwise.
+
+**Example**<br>
+```js
+node.getPreviousSibling();
+// Node {}
+```
+
+#### node.hasChildren()
+Checks whether this node has children.
+
+**Returns**<br>
+<i>(boolean)</i>: Returns true if the node has children, false otherwise.
+
+**Example**<br>
+```js
+node.hasChildren();
+// → true
+```
