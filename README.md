@@ -208,7 +208,7 @@ File: [examples/test4.js](https://github.com/cheton/flattree/blob/master/example
     Kilo (.1.2)
 ```
 
-## Node API
+## Node API Documentation
 
 #### node.getChildAt(index)
 Gets a child node at the specified index.
