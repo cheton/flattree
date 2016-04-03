@@ -5,7 +5,7 @@ import tree from '../test/fixtures/tree.json';
 
 flatten(tree, { openAllNodes: true }).forEach((node, index) => {
     const { state, label = '', children = [] } = node;
-    const { depth, lastChild, more, open, path, prefixMask } = state;
+    const { depth, open, path, prefixMask } = state;
 
     if (depth === 0) {
         console.log('%s (%s)', label, path);
@@ -16,5 +16,5 @@ flatten(tree, { openAllNodes: true }).forEach((node, index) => {
         .map(s => (Number(s) === 0) ? '  ' : '| ')
         .join('');
 
-    console.log('%s%s─%s %s (%s)', prefix, (lastChild ? '└' : '├'), (more && open ? '┬' : '─'), label, path);
+    console.log('%s%s─%s %s (%s)', prefix, (node.isLastChild() ? '└' : '├'), (node.hasChildren() && open ? '┬' : '─'), label, path);
 });

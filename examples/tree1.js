@@ -12,8 +12,8 @@ flatten(tree, { openAllNodes: true }).forEach((node, index) => {
         node.state.total,
         node.state.depth,
         JSON.stringify(node.state.prefixMask),
-        node.state.lastChild,
-        node.state.more,
+        node.isLastChild(),
+        node.hasChildren(),
         node.state.open
     );
 });

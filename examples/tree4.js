@@ -17,12 +17,12 @@ const openNodes = [
 ];
 flatten(tree.children, { openNodes: openNodes }).forEach((node, index) => {
     const { label = '', state = {}, children = [] } = node;
-    const { more, open, path } = state;
+    const { open, path } = state;
   
     let padding = pad(state.depth * 2, ' ');
-    if (more && open) {
+    if (node.hasChildren() && open) {
         padding += '- ';
-    } else if (more && !open) {
+    } else if (node.hasChildren() && !open) {
         padding += '+ ';
     } else {
         padding += '  ';
