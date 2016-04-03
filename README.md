@@ -213,6 +213,9 @@ File: [examples/test4.js](https://github.com/cheton/flattree/blob/master/example
 #### node.getChildAt(index)
 Gets a child node at the specified index.
 
+**Arguments**<br>
+1. index <i>(number)</i>: The index of the child node.
+
 **Returns**<br>
 <i>(Object)</i>: Returns an object that defines the child node, <i>null</i> otherwise.
 
