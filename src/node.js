@@ -13,7 +13,8 @@ class Node {
         this.children = this.children || [];
     }
     // Gets a child node at the specified index.
-    // @return {object} Returns a node on success, null otherwise.
+    // @param {number} The index of the child node.
+    // @return {object} Returns an object that defines the node, null otherwise.
     getChildAt(index) {
         let node = null;
         if ((this.children.length > 0) && (index >= 0) && (index < this.children.length)) {
@@ -22,12 +23,12 @@ class Node {
         return node;
     }
     // Gets the child nodes.
-    // @return {array} Returns an array of child nodes.
+    // @return {array} Returns an array of objects that define the nodes.
     getChildren() {
         return this.children;
     }
     // Gets the first child node.
-    // @return {object} Returns the first child node on success, null otherwise.
+    // @return {object} Returns an object that defines the node, null otherwise.
     getFirstChild() {
         let node = null;
         if (this.children.length > 0) {
@@ -36,7 +37,7 @@ class Node {
         return node;
     }
     // Gets the last child node.
-    // @return {object} Returns the last child node on success, null otherwise.
+    // @return {object} Returns an object that defines the node, null otherwise.
     getLastChild() {
         let node = null;
         if (this.children.length > 0) {
@@ -45,7 +46,7 @@ class Node {
         return node;
     }
     // Gets the next sibling node.
-    // @return {object} Returns the next sibling node on success, null otherwise.
+    // @return {object} Returns an object that defines the node, null otherwise.
     getNextSibling() {
         let node = null;
         if (this.parent) {
@@ -57,12 +58,12 @@ class Node {
         return node;
     }
     // Gets the parent node.
-    // @return {object} Returns the parent node.
+    // @return {object} Returns an object that defines the node, null otherwise.
     getParent() {
         return this.parent;
     }
-    // Gets previous sibling node.
-    // @return {object} Returns the previous sibling node on success, null otherwise.
+    // Gets the previous sibling node.
+    // @return {object} Returns an object that defines the node, null otherwise.
     getPreviousSibling() {
         let node = null;
         if (this.parent) {
