@@ -247,3 +247,15 @@ Checks whether this node has children.
 node.hasChildren();
 // → true
 ```
+
+#### node.isLastChild()
+Checks whether this node is the last child of its parent.
+
+**Returns**<br>
+<i>(boolean)</i>: Returns <i>true</i> if the node is the last child of its parent, <i>false</i> otherwise.
+
+**Example**<br>
+```js
+node.isLastChild();
+// → true
+```
