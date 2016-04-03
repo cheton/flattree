@@ -4,7 +4,7 @@
   "description": "Convert hierarchical tree structure to flat structure.",
   "main": "lib/index.js",
   "scripts": {
-    "prepublish": "npm run lint && npm run build && npm test && npm run lint",
+    "prepublish": "npm run lint && npm test && npm run build",
     "build": "babel ./src --out-dir ./lib",
     "test": "./babel-tap --coverage test/*.js",
     "lint": "eslint ./src",
