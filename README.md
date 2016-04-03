@@ -245,7 +245,7 @@ Gets the first child node.
 **Example**<br>
 ```js
 node.getFirstChild();
-// Node {}
+// → Node {}
 ```
 
 #### node.getLastChild()
@@ -257,7 +257,7 @@ Gets the last child node.
 **Example**<br>
 ```js
 node.getLastChild();
-// Node {}
+// → Node {}
 ```
 
 #### node.getNextSibling()
@@ -269,7 +269,7 @@ Gets the next sibling node.
 **Example**<br>
 ```js
 node.getNextSibling();
-// Node {}
+// → Node {}
 ```
 
 #### node.getParent()
@@ -281,7 +281,7 @@ Gets the parent node.
 **Example**<br>
 ```js
 node.getParent();
-// Node {}
+// → Node {}
 ```
 
 #### node.getPreviousSibling()
@@ -293,7 +293,7 @@ Gets the previous sibling node.
 **Example**<br>
 ```js
 node.getPreviousSibling();
-// Node {}
+// → Node {}
 ```
 
 #### node.hasChildren()
