@@ -12,20 +12,10 @@ class Node {
 
         this.children = this.children || [];
     }
-    // Gets the parent node.
-    // @return {object} The parent node.
-    getParent() {
-        return this.parent;
-    }
     // Gets the child nodes.
-    // @return {array} An array of child nodes.
-    getChildNodes() {
+    // @return {array} Returns an array of child nodes.
+    getChildren() {
         return this.children;
-    }
-    // Checks if this node has children.
-    // @return {boolean} true if the node has child nodes; otherwise, false.
-    hasChildNodes() {
-        return this.children.length > 0;
     }
     // Gets the first child node.
     // @return {object} Returns the first child node on success, null otherwise.
@@ -48,6 +38,11 @@ class Node {
         }
         return node;
     }
+    // Gets the parent node.
+    // @return {object} Returns the parent node.
+    getParent() {
+        return this.parent;
+    }
     // Gets previous sibling node.
     // @return {object} Returns the previous sibling node on success, null otherwise.
     getPreviousSibling() {
@@ -59,6 +54,11 @@ class Node {
             }
         }
         return node;
+    }
+    // Checks whether this node has children.
+    // @return {boolean} Returns true if the node has children, false otherwise.
+    hasChildren() {
+        return this.children.length > 0;
     }
 }
 

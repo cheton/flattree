@@ -614,15 +614,15 @@ test('[node] getChildren/getParent/getFirstChild/getPreviousSibling/getNextSibli
     const alpha = _.find(nodes, node => node.id === 'alpha');
     const bravo = _.find(nodes, node => node.id === 'bravo');
 
-    // hasChildNodes
-    t.same(root.hasChildNodes(), true);
-    t.same(alpha.hasChildNodes(), false);
-    t.same(bravo.hasChildNodes(), true);
+    // hasChildren
+    t.same(root.hasChildren(), true);
+    t.same(alpha.hasChildren(), false);
+    t.same(bravo.hasChildren(), true);
 
-    // getChildNodes
-    t.same(root.getChildNodes().length, 2);
-    t.same(root.getChildNodes()[0], alpha);
-    t.same(root.getChildNodes()[1], bravo);
+    // getChildren
+    t.same(root.getChildren().length, 2);
+    t.same(root.getChildren()[0], alpha);
+    t.same(root.getChildren()[1], bravo);
 
     // getParent
     t.same(alpha.getParent(), root);
