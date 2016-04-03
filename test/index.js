@@ -31,8 +31,6 @@ test('[flatten] Flat list view', (t) => {
             state: {
                 path: '.0',
                 depth: 0,
-                lastChild: true,
-                more: true,
                 open: true,
                 prefixMask: '0',
                 total: 11
@@ -46,8 +44,6 @@ test('[flatten] Flat list view', (t) => {
             state: {
                 path: '.0.0',
                 depth: 1,
-                lastChild: false,
-                more: false,
                 open: false,
                 prefixMask: '00',
                 total: 0
@@ -61,8 +57,6 @@ test('[flatten] Flat list view', (t) => {
             state: {
                 path: '.0.1',
                 depth: 1,
-                lastChild: true,
-                more: true,
                 open: true,
                 prefixMask: '00',
                 total: 9
@@ -76,8 +70,6 @@ test('[flatten] Flat list view', (t) => {
             state: {
                 path: '.0.1.0',
                 depth: 2,
-                lastChild: false,
-                more: true,
                 open: true,
                 prefixMask: '000',
                 total: 4
@@ -91,8 +83,6 @@ test('[flatten] Flat list view', (t) => {
             state: {
                 path: '.0.1.0.0',
                 depth: 3,
-                lastChild: false,
-                more: true,
                 open: true,
                 prefixMask: '0001',
                 total: 2
@@ -106,8 +96,6 @@ test('[flatten] Flat list view', (t) => {
             state: {
                 path: '.0.1.0.0.0',
                 depth: 4,
-                lastChild: false,
-                more: false,
                 open: false,
                 prefixMask: '00011',
                 total: 0
@@ -121,8 +109,6 @@ test('[flatten] Flat list view', (t) => {
             state: {
                 path: '.0.1.0.0.1',
                 depth: 4,
-                lastChild: true,
-                more: false,
                 open: false,
                 prefixMask: '00011',
                 total: 0
@@ -136,8 +122,6 @@ test('[flatten] Flat list view', (t) => {
             state: {
                 path: '.0.1.0.1',
                 depth: 3,
-                lastChild: true,
-                more: false,
                 open: false,
                 prefixMask: '0001',
                 total: 0
@@ -151,8 +135,6 @@ test('[flatten] Flat list view', (t) => {
             state: {
                 path: '.0.1.1',
                 depth: 2,
-                lastChild: false,
-                more: true,
                 open: true,
                 prefixMask: '000',
                 total: 2
@@ -166,8 +148,6 @@ test('[flatten] Flat list view', (t) => {
             state: {
                 path: '.0.1.1.0',
                 depth: 3,
-                lastChild: true,
-                more: true,
                 open: true,
                 prefixMask: '0001',
                 total: 1
@@ -181,8 +161,6 @@ test('[flatten] Flat list view', (t) => {
             state: {
                 path: '.0.1.1.0.0',
                 depth: 4,
-                lastChild: true,
-                more: false,
                 open: false,
                 prefixMask: '00010',
                 total: 0
@@ -196,8 +174,6 @@ test('[flatten] Flat list view', (t) => {
             state: {
                 path: '.0.1.2',
                 depth: 2,
-                lastChild: true,
-                more: false,
                 open: false,
                 prefixMask: '000',
                 total: 0
@@ -246,7 +222,7 @@ test('[flatten] Nested hierarchies', (t) => {
     const tree = JSON.parse(fixtures.tree);
     flatten(tree, { openAllNodes: true }).forEach((node, index) => {
         const { state, label = '', children = [] } = node;
-        const { depth, lastChild, more, open, path, prefixMask } = state;
+        const { depth, open, path, prefixMask } = state;
 
         if (depth === 0) {
             found = found + label + ' (' + path + ')' + '\n';
@@ -259,8 +235,8 @@ test('[flatten] Nested hierarchies', (t) => {
 
         found = found + 
             prefix + 
-            (lastChild ? '└' : '├') + '─' +
-            (more && open ? '┬' : '─') + ' ' +
+            (node.isLastChild() ? '└' : '├') + '─' +
+            (node.hasChildren() && open ? '┬' : '─') + ' ' +
             label +
             ' (' + path + ')' + '\n';
     });
@@ -295,12 +271,12 @@ test('[flatten] Single root node', (t) => {
     ];
     flatten(tree, { openNodes: openNodes }).forEach((node, index) => {
         const { label = '', state = {}, children = [] } = node;
-        const { more, open } = state;
+        const { open } = state;
       
         let padding = pad('', state.depth * 2, ' ');
-        if (more && open) {
+        if (node.hasChildren() && open) {
             padding += '- ';
-        } else if (more && !open) {
+        } else if (node.hasChildren() && !open) {
             padding += '+ ';
         } else {
             padding += '  ';
@@ -337,12 +313,12 @@ test('[flatten] Multiple root nodes', (t) => {
     ];
     flatten(tree.children, { openNodes: openNodes }).forEach((node, index) => {
         const { label = '', state = {}, children = [] } = node;
-        const { more, open } = state;
+        const { open } = state;
       
         let padding = pad('', state.depth * 2, ' ');
-        if (more && open) {
+        if (node.hasChildren() && open) {
             padding += '- ';
-        } else if (state.more) {
+        } else if (node.hasChildren() && !open) {
             padding += '+ ';
         } else {
             padding += '  ';
@@ -365,8 +341,6 @@ test('[flatten] Open all nodes, close two nodes, and rebuild the list', (t) => {
             state: {
                 path: '.0',
                 depth: 0,
-                lastChild: true,
-                more: true,
                 open: true,
                 prefixMask: '0',
                 total: 8
@@ -380,8 +354,6 @@ test('[flatten] Open all nodes, close two nodes, and rebuild the list', (t) => {
             state: {
                 path: '.0.0',
                 depth: 1,
-                lastChild: false,
-                more: false,
                 open: false,
                 prefixMask: '00',
                 total: 0
@@ -395,8 +367,6 @@ test('[flatten] Open all nodes, close two nodes, and rebuild the list', (t) => {
             state: {
                 path: '.0.1',
                 depth: 1,
-                lastChild: true,
-                more: true,
                 open: true,
                 prefixMask: '00',
                 total: 6
@@ -410,8 +380,6 @@ test('[flatten] Open all nodes, close two nodes, and rebuild the list', (t) => {
             state: {
                 path: '.0.1.0',
                 depth: 2,
-                lastChild: false,
-                more: true,
                 open: true,
                 prefixMask: '000',
                 total: 2
@@ -425,8 +393,6 @@ test('[flatten] Open all nodes, close two nodes, and rebuild the list', (t) => {
             state: {
                 path: '.0.1.0.0',
                 depth: 3,
-                lastChild: false,
-                more: true,
                 open: false,
                 prefixMask: '0001',
                 total: 0
@@ -440,8 +406,6 @@ test('[flatten] Open all nodes, close two nodes, and rebuild the list', (t) => {
             state: {
                 path: '.0.1.0.1',
                 depth: 3,
-                lastChild: true,
-                more: false,
                 open: false,
                 prefixMask: '0001',
                 total: 0
@@ -455,8 +419,6 @@ test('[flatten] Open all nodes, close two nodes, and rebuild the list', (t) => {
             state: {
                 path: '.0.1.1',
                 depth: 2,
-                lastChild: false,
-                more: true,
                 open: true,
                 prefixMask: '000',
                 total: 1
@@ -470,8 +432,6 @@ test('[flatten] Open all nodes, close two nodes, and rebuild the list', (t) => {
             state: {
                 path: '.0.1.1.0',
                 depth: 3,
-                lastChild: true,
-                more: true,
                 open: false,
                 prefixMask: '0001',
                 total: 0
@@ -485,8 +445,6 @@ test('[flatten] Open all nodes, close two nodes, and rebuild the list', (t) => {
             state: {
                 path: '.0.1.2',
                 depth: 2,
-                lastChild: true,
-                more: false,
                 open: false,
                 prefixMask: '000',
                 total: 0
