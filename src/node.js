@@ -12,6 +12,15 @@ class Node {
 
         this.children = this.children || [];
     }
+    // Gets a child node at the specified index.
+    // @return {object} Returns a node on success, null otherwise.
+    getChildAt(index) {
+        let node = null;
+        if ((this.children.length > 0) && (index >= 0) && (index < this.children.length)) {
+            node = this.children[index];
+        }
+        return node;
+    }
     // Gets the child nodes.
     // @return {array} Returns an array of child nodes.
     getChildren() {
@@ -23,6 +32,15 @@ class Node {
         let node = null;
         if (this.children.length > 0) {
             node = this.children[0];
+        }
+        return node;
+    }
+    // Gets the last child node.
+    // @return {object} Returns the last child node on success, null otherwise.
+    getLastChild() {
+        let node = null;
+        if (this.children.length > 0) {
+            node = this.children[this.children.length - 1];
         }
         return node;
     }

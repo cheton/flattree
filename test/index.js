@@ -619,18 +619,31 @@ test('[node] getChildren/getParent/getFirstChild/getPreviousSibling/getNextSibli
     t.same(alpha.hasChildren(), false);
     t.same(bravo.hasChildren(), true);
 
+    // getChildAt
+    t.same(root.getChildAt(), null);
+    t.same(root.getChildAt(null), null);
+    t.same(root.getChildAt(-1), null);
+    t.same(root.getChildAt(0), alpha);
+    t.same(root.getChildAt(1), bravo);
+    t.same(root.getChildAt(2), null);
+
     // getChildren
     t.same(root.getChildren().length, 2);
     t.same(root.getChildren()[0], alpha);
     t.same(root.getChildren()[1], bravo);
 
+    // getFirstChild
+    t.same(root.getFirstChild(), alpha);
+    t.same(alpha.getFirstChild(), null);
+
+    // getLastChild
+    t.same(root.getLastChild(), bravo);
+    t.same(alpha.getLastChild(), null);
+
     // getParent
     t.same(alpha.getParent(), root);
     t.same(alpha.getParent().getParent(), root.parent);
     t.same(alpha.getParent().getParent().getParent(), null);
-
-    // getFirstChild
-    t.same(root.getFirstChild(), alpha);
 
     // getPreviousSibling
     t.same(alpha.getPreviousSibling(), null);
@@ -640,9 +653,14 @@ test('[node] getChildren/getParent/getFirstChild/getPreviousSibling/getNextSibli
     t.same(alpha.getNextSibling(), bravo);
     t.same(bravo.getNextSibling(), null);
 
-    // Combinations
+    // getPreviousSibling + getNextSibling
     t.same(alpha.getNextSibling().getNextSibling(), null);
     t.same(alpha.getNextSibling().getPreviousSibling(), alpha);
+
+    // hasChildren
+    t.same(root.hasChildren(), true);
+    t.same(alpha.hasChildren(), false);
+    t.same(bravo.hasChildren(), true);
 
     t.end();
 });
