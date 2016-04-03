@@ -1,6 +1,6 @@
 {
   "name": "flattree",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Convert hierarchical tree structure to flat structure.",
   "main": "lib/index.js",
   "scripts": {
