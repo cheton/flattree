@@ -80,7 +80,7 @@ class Node {
         return this.children.length > 0;
     }
     // Checks whether this node is the last child of its parent.
-    // @return {boolean} Returns true if the node is the last child, false otherwise.
+    // @return {boolean} Returns true if the node is the last child of its parent, false otherwise.
     isLastChild() {
         const hasNextSibling = this.getNextSibling();
         return !hasNextSibling;
