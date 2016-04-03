@@ -217,7 +217,7 @@ Gets a child node at the specified index.
 1. index <i>(number)</i>: The index of the child node.
 
 **Returns**<br>
-<i>(Object)</i>: Returns an object that defines the child node, <i>null</i> otherwise.
+<i>(Object)</i>: Returns an object that defines the node, <i>null</i> otherwise.
 
 **Example**<br>
 ```js
