@@ -80,70 +80,7 @@ console.log(nodes);
 
 ## Examples
 
-Given a hierarchical tree structure like below:
-
-```json
-{
-  "id": "<root>",
-  "label": "<root>",
-  "children": [
-    {
-      "id": "alpha",
-      "label": "Alpha"
-    },
-    {
-      "id": "bravo",
-      "label": "Bravo",
-      "children": [
-        {
-          "id": "charlie",
-          "label": "Charlie",
-          "children": [
-            {
-              "id": "delta",
-              "label": "Delta",
-              "children": [
-                {
-                  "id": "echo",
-                  "label": "Echo"
-                },
-                {
-                  "id": "foxtrot",
-                  "label": "Foxtrot"
-                }
-              ]
-            },
-            {
-              "id": "golf",
-              "label": "Golf"
-            }
-          ]
-        },
-        {
-          "id": "hotel",
-          "label": "Hotel",
-          "children": [
-            {
-              "id": "india",
-              "label": "India",
-              "children": [
-                {
-                  "id": "juliet",
-                  "label": "Juliet"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "kilo",
-          "label": "Kilo"
-        }
-      ]
-    }
-  ]
-}
-```
+Given a hierarchical tree structure like [this](https://github.com/cheton/flattree/blob/master/test/fixtures/tree.json), you can build a tree in any form. For example:
 
 ### Flat List View
 File: [examples/test1.js](https://github.com/cheton/flattree/blob/master/examples/tree1.js)
