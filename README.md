@@ -214,7 +214,7 @@ File: [examples/test4.js](https://github.com/cheton/flattree/blob/master/example
 Gets a child node at the specified index.
 
 **Returns**<br>
-<i>(Object)</i>: Returns an object that defines the child node, null otherwise.
+<i>(Object)</i>: Returns an object that defines the child node, <i>null</i> otherwise.
 
 **Example**<br>
 ```js
@@ -240,19 +240,19 @@ node.getChildren();
 Gets the first child node.
 
 **Returns**<br>
-<i>(Object)</i>: Returns an object that defines the node, null otherwise.
+<i>(Object)</i>: Returns an object that defines the node, <i>null</i> otherwise.
 
 **Example**<br>
 ```js
 node.getFirstChild();
-// Node { }
+// Node {}
 ```
 
 #### node.getLastChild()
 Gets the last child node.
 
 **Returns**<br>
-<i>(Object)</i>: Returns an object that defines the node, null otherwise.
+<i>(Object)</i>: Returns an object that defines the node, <i>null</i> otherwise.
 
 **Example**<br>
 ```js
@@ -264,19 +264,19 @@ node.getLastChild();
 Gets the next sibling node.
 
 **Returns**<br>
-<i>(Object)</i>: Returns an object that defines the node, null otherwise.
+<i>(Object)</i>: Returns an object that defines the node, <i>null</i> otherwise.
 
 **Example**<br>
 ```js
 node.getNextSibling();
-// Node { }
+// Node {}
 ```
 
 #### node.getParent()
 Gets the parent node.
 
 **Returns**<br>
-<i>(Object)</i>: Returns an object that defines the node, null otherwise.
+<i>(Object)</i>: Returns an object that defines the node, <i>null</i> otherwise.
 
 **Example**<br>
 ```js
@@ -288,7 +288,7 @@ node.getParent();
 Gets the previous sibling node.
 
 **Returns**<br>
-<i>(Object)</i>: Returns an object that defines the node, null otherwise.
+<i>(Object)</i>: Returns an object that defines the node, <i>null</i> otherwise.
 
 **Example**<br>
 ```js
@@ -300,7 +300,7 @@ node.getPreviousSibling();
 Checks whether this node has children.
 
 **Returns**<br>
-<i>(boolean)</i>: Returns true if the node has children, false otherwise.
+<i>(boolean)</i>: Returns <i>true</i> if the node has children, <i>false</i> otherwise.
 
 **Example**<br>
 ```js
