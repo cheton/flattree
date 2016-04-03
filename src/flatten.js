@@ -31,9 +31,7 @@ const flatten = (nodes = [], options = {}) => {
             children: nodes,
             state: {
                 depth: -1,
-                lastChild: true,
-                more: nodes.length > 0,
-                open: nodes.length > 0,
+                open: true, // always open
                 path: '',
                 prefixMask: '',
                 total: 0
@@ -46,10 +44,10 @@ const flatten = (nodes = [], options = {}) => {
             // Traversing up through its ancestors
             let p = rootNode;
             while (p) {
-                const { path, lastChild, total = 0 } = p.state;
+                const { path, total = 0 } = p.state;
 
                 // Rebuild the lastChild pool
-                if (path && lastChild) {
+                if (p.isLastChild() && path) {
                     pool.lastChild[path] = true;
                 }
 
@@ -91,8 +89,7 @@ const flatten = (nodes = [], options = {}) => {
             node.parent.children[index] = node;
 
             const path = current.state.path + '.' + index;
-            const more = Object.keys(node.children).length > 0;
-            const open = more && (() => {
+            const open = node.hasChildren() && (() => {
                 const { openAllNodes, openNodes } = options;
                 if (openAllNodes) {
                     return true;
@@ -107,7 +104,6 @@ const flatten = (nodes = [], options = {}) => {
                 }
                 return false;
             })();
-            const lastChild = (index === current.children.length - 1);
             const prefixMask = ((prefix) => {
                 let mask = '';
                 while (prefix.length > 0) {
@@ -121,15 +117,13 @@ const flatten = (nodes = [], options = {}) => {
                 return mask;
             })(path);
 
-            if (lastChild) {
+            if (node.isLastChild()) {
                 pool.lastChild[path] = true;
             }
 
             // This allows you to put extra information to node.state
             node.state = extend({}, node.state, {
                 depth: depth + 1,
-                lastChild: lastChild,
-                more: more,
                 open: open,
                 path: path,
                 prefixMask: prefixMask,
@@ -163,7 +157,7 @@ const flatten = (nodes = [], options = {}) => {
 
             ++index;
 
-            if (more) {
+            if (node.hasChildren()) {
                 // Push back parent node to the stack that will be able to continue
                 // the next iteration once all the child nodes of the current node
                 // have been completely explored.
