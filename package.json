@@ -17,6 +17,13 @@
     "type": "git",
     "url": "git+https://github.com/cheton/flattree.git"
   },
+  "keywords": [
+    "flat",
+    "flatten",
+    "large",
+    "scroll",
+    "tree"
+  ],
   "devDependencies": {
     "babel-cli": "^6.6.5",
     "babel-core": "^6.7.4",
