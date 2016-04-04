@@ -149,18 +149,18 @@ console.log(nodes);
 // → [Node { id: 'fruit', ...}, Node { id: 'apple', ...}, Node { id: 'banana', ...}]
 ```
 
-## Node API Documentation
+## Node API
 
-#### node.getChildAt(index)
+#### getChildAt(index)
 Gets a child node at the specified index.
 
-**Arguments**<br>
+##### Arguments
 1. index <i>(number)</i>: The index of the child node.
 
-**Returns**<br>
-<i>(Object)</i>: Returns an object that defines the node, <i>null</i> otherwise.
+##### Returns
+<i>(Object)</i>: Returns a Node object of the specified child, <i>null</i> otherwise.
 
-**Example**<br>
+##### Example
 ```js
 node.getChildAt(-1);
 // → null
@@ -168,97 +168,97 @@ node.getChildAt(0);
 // → Node {}
 ```
 
-#### node.getChildren() 
+#### getChildren() 
 Gets the child nodes.
 
-**Returns**<br>
-<i>(Array)</i>: Returns an array of objects that define the nodes.
+##### Returns
+<i>(Array)</i>: Returns an array of Node objects containing the child nodes.
 
-**Example**<br>
+##### Example
 ```js
 node.getChildren();
 // → [Node {}, Node {}]
 ```
 
-#### node.getFirstChild()
+#### getFirstChild()
 Gets the first child node.
 
-**Returns**<br>
-<i>(Object)</i>: Returns an object that defines the node, <i>null</i> otherwise.
+##### Returns
+<i>(Object)</i>: Returns a Node object of the first child, <i>null</i> otherwise.
 
-**Example**<br>
+##### Example
 ```js
 node.getFirstChild();
 // → Node {}
 ```
 
-#### node.getLastChild()
+#### getLastChild()
 Gets the last child node.
 
-**Returns**<br>
-<i>(Object)</i>: Returns an object that defines the node, <i>null</i> otherwise.
+##### Returns
+<i>(Object)</i>: Returns a Node object of the last child, <i>null</i> otherwise.
 
-**Example**<br>
+##### Example
 ```js
 node.getLastChild();
 // → Node {}
 ```
 
-#### node.getNextSibling()
+#### getNextSibling()
 Gets the next sibling node.
 
-**Returns**<br>
-<i>(Object)</i>: Returns an object that defines the node, <i>null</i> otherwise.
+##### Returns
+<i>(Object)</i>: Returns a Node object of the next sibling, <i>null</i> otherwise.
 
-**Example**<br>
+##### Example
 ```js
 node.getNextSibling();
 // → Node {}
 ```
 
-#### node.getParent()
+#### getParent()
 Gets the parent node.
 
-**Returns**<br>
-<i>(Object)</i>: Returns an object that defines the node, <i>null</i> otherwise.
+##### Returns
+<i>(Object)</i>: Returns a Node object of the parent, <i>null</i> otherwise.
 
-**Example**<br>
+##### Example
 ```js
 node.getParent();
 // → Node {}
 ```
 
-#### node.getPreviousSibling()
+#### getPreviousSibling()
 Gets the previous sibling node.
 
-**Returns**<br>
-<i>(Object)</i>: Returns an object that defines the node, <i>null</i> otherwise.
+##### Returns
+<i>(Object)</i>: Returns a Node object of the previous sibling, <i>null</i> otherwise.
 
-**Example**<br>
+##### Example
 ```js
 node.getPreviousSibling();
 // → Node {}
 ```
 
-#### node.hasChildren()
+#### hasChildren()
 Checks whether this node has children.
 
-**Returns**<br>
+##### Returns
 <i>(boolean)</i>: Returns <i>true</i> if the node has children, <i>false</i> otherwise.
 
-**Example**<br>
+##### Example
 ```js
 node.hasChildren();
 // → true
 ```
 
-#### node.isLastChild()
+#### isLastChild()
 Checks whether this node is the last child of its parent.
 
-**Returns**<br>
+##### Returns
 <i>(boolean)</i>: Returns <i>true</i> if the node is the last child of its parent, <i>false</i> otherwise.
 
-**Example**<br>
+##### Example
 ```js
 node.isLastChild();
 // → true
