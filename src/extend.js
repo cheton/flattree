@@ -17,5 +17,4 @@ const extend = (target, ...sources) => {
     return output;
 };
 
-// IE8 compatibility output
-module.exports = extend;
+export default extend;
