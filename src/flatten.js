@@ -1,3 +1,4 @@
+/* eslint no-console: 0 */
 import extend from './extend';
 import Node from './node';
 
