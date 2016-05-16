@@ -174,5 +174,4 @@ const flatten = (nodes = [], options = {}) => {
     return flatten;
 };
 
-// IE8 compatibility output
-module.exports = flatten;
+export default flatten;

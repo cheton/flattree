@@ -87,5 +87,4 @@ class Node {
     }
 }
 
-// IE8 compatibility output
-module.exports = Node;
+export default Node;
