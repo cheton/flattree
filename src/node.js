@@ -2,7 +2,6 @@ import extend from './extend';
 
 class Node {
     id = null;
-    label = '';
     parent = null;
     children = [];
     state = {};
