@@ -1,3 +1,4 @@
+/* eslint no-restricted-syntax: 0 */
 const extend = (target, ...sources) => {
     if (target === undefined || target === null) {
         throw new TypeError('Cannot convert undefined or null to object');
