@@ -523,7 +523,7 @@ test('[flatten] Corrupted parent node', (t) => {
             parent.parent.state.total = 0;
             const originalConsoleLogger = console.log;
             console.log = (msg) => {
-                t.same(msg, 'Error: The node might have been corrupted: id=%s, label=%s, parent=%s, children=%s, state=%s');
+                t.same(msg, 'Error: The node might have been corrupted: id=%s, parent=%s, children=%s, state=%s');
             };
             flatten(node, { openAllNodes: true, throwOnError: false });
             console.log = originalConsoleLogger;

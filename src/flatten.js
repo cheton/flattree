@@ -27,7 +27,6 @@ const flatten = (nodes = [], options = {}) => {
             parentNode = new Node(parentNode);
         }
         const rootNode = parentNode || new Node({ // defaults
-            label: '',
             parent: null,
             children: nodes,
             state: {
@@ -58,9 +57,8 @@ const flatten = (nodes = [], options = {}) => {
                     if (options.throwOnError) {
                         throw new Error('The node might have been corrupted: id=' + JSON.stringify(p.id) + ', state=' + JSON.stringify(p.state));
                     } else {
-                        console && console.log('Error: The node might have been corrupted: id=%s, label=%s, parent=%s, children=%s, state=%s',
+                        console && console.log('Error: The node might have been corrupted: id=%s, parent=%s, children=%s, state=%s',
                             JSON.stringify(p.id),
-                            JSON.stringify(p.label),
                             p.parent,
                             p.children,
                             JSON.stringify(p.state),
