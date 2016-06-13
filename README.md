@@ -1,4 +1,5 @@
-# flattree [![build status](https://travis-ci.org/cheton/flattree.svg?branch=master)](https://travis-ci.org/cheton/flattree) [![Coverage Status](https://coveralls.io/repos/cheton/flattree/badge.svg)](https://coveralls.io/r/cheton/flattree)
+# flattree [![build status](https://travis-ci.org/cheton/flattree.svg?branch=master)](https://travis-ci.org/cheton/flattree) [![Coverage Status](https://coveralls.io/repos/github/cheton/flattree/badge.svg?branch=master)](https://coveralls.io/github/cheton/flattree?branch=master)
+
 [![NPM](https://nodei.co/npm/flattree.png?downloads=true&stars=true)](https://nodei.co/npm/flattree/)
 
 Convert hierarchical tree structure to flat structure.
