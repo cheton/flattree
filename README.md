@@ -1,6 +1,6 @@
 # flattree [![build status](https://travis-ci.org/cheton/flattree.svg?branch=master)](https://travis-ci.org/cheton/flattree) [![Coverage Status](https://coveralls.io/repos/github/cheton/flattree/badge.svg?branch=master)](https://coveralls.io/github/cheton/flattree?branch=master)
 
-[![NPM](https://nodei.co/npm/flattree.png?downloads=true&stars=true)](https://nodei.co/npm/flattree/)
+[![NPM](https://nodei.co/npm/flattree.png?downloads=true&stars=true)](https://www.npmjs.com/package/flattree)
 
 Convert hierarchical tree structure to flat structure.
 With a flat structure, it allows you to scroll a large tree easily using [Clusterize.js](https://github.com/NeXTs/Clusterize.js). 
