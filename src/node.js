@@ -11,6 +11,18 @@ class Node {
 
         this.children = this.children || [];
     }
+    // Returns a boolean value indicating whether a node is a descendant of a given node or not.
+    // @param {object} node Specifies the node that may be contained by (a descendant of) a specified node.
+    // @return {boolean} Returns true if a node is a descendant of a specified node, otherwise false. A descendant can be a child, grandchild, great-grandchild, and so on.
+    contains(node) {
+        while ((node instanceof Node) && (node !== this)) {
+            if (node.parent === this) {
+                return true;
+            }
+            node = node.parent;
+        }
+        return false;
+    }
     // Gets a child node at the specified index.
     // @param {number} The index of the child node.
     // @return {object} Returns an object that defines the node, null otherwise.
