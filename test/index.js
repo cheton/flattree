@@ -565,12 +565,28 @@ test('[flatten] Ensure the parent node is an instance of Node after calling flat
     t.end();
 });
 
-test('[node] getChildren/getParent/getFirstChild/getPreviousSibling/getNextSibling', (t) => {
+test('[node] Node API', (t) => {
     const tree = JSON.parse(fixtures.tree);
     const nodes = flatten(tree, { openAllNodes: true });
     const root = _.find(nodes, node => node.id === '<root>');
     const alpha = _.find(nodes, node => node.id === 'alpha');
     const bravo = _.find(nodes, node => node.id === 'bravo');
+    const juliet = _.find(nodes, node => node.id === 'juliet');
+
+    // contains
+    t.equal(root.contains(null), false);
+    t.equal(root.contains(undefined), false);
+    t.equal(root.contains({}), false);
+    t.equal(root.contains([]), false);
+    t.equal(root.contains(root), false);
+    t.equal(root.contains(alpha), true);
+    t.equal(root.contains(bravo), true);
+    t.equal(root.contains(juliet), true);
+    t.equal(alpha.contains(bravo), false);
+    t.equal(alpha.contains(juliet), false);
+    t.equal(bravo.contains(alpha), false);
+    t.equal(bravo.contains(juliet), true);
+    t.equal(juliet.contains(root), false);
 
     // hasChildren
     t.same(root.hasChildren(), true);
