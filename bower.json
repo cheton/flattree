@@ -1,0 +1,16 @@
+{
+  "name": "flattree",
+  "description": "Convert hierarchical tree structure to flat structure.",
+  "authors": [
+    "Cheton Wu <cheton@gmail.com>"
+  ],
+  "homepage": "https://github.com/cheton/flattree",
+  "keywords": [
+    "flat",
+    "flatten",
+    "large",
+    "scroll",
+    "tree"
+  ],
+  "license": "MIT"
+}
