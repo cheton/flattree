@@ -475,6 +475,10 @@ test('[flatten] Open all nodes, close two nodes, and rebuild the list', (t) => {
 
     // Step 2. Close two nodes: 'delta' and 'india'
     openNodes = _.without(openNodes, 'delta', 'india');
+    ['delta', 'india'].forEach(id => {
+        const node = _.find(nodes, { id: id });
+        node.state.open = false;
+    });
 
     // Returns a new mapped array containing nodes
     openNodes = _.map(openNodes, id => _.find(nodes, { id: id }));
