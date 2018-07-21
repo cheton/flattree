@@ -93,6 +93,10 @@ const flatten = (nodes = [], options = {}) => {
                 if (openAllNodes) {
                     return true;
                 }
+                // determine from input
+                if (node.state && node.state.open) {
+                    return true;
+                }
                 // determine by node object
                 if (openNodes.indexOf(node) >= 0) {
                     return true;
