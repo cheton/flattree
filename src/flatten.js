@@ -2,10 +2,10 @@
 import extend from './extend';
 import Node from './node';
 
-// @param {object|array} nodes The tree nodes
-// @param {object} [options] The options object
+// @param {object|array} nodes The tree nodes.
+// @param {object} [options] The options object.
 // @param {boolean} [options.openAllNodes] True to open all nodes. Defaults to false.
-// @param {array} [options.openNodes] An array that contains the ids of open nodes
+// @param {array} [options.openNodes] An array that contains the ids of open nodes.
 // @return {array}
 const flatten = (nodes = [], options = {}) => {
     nodes = [].concat(nodes);
@@ -41,17 +41,17 @@ const flatten = (nodes = [], options = {}) => {
         if (rootNode === parentNode) {
             const subtotal = (rootNode.state.total || 0);
 
-            // Traversing up through its ancestors
+            // Traversing up through its ancestors.
             let p = rootNode;
             while (p) {
                 const { path, total = 0 } = p.state;
 
-                // Rebuild the lastChild pool
+                // Rebuild the lastChild pool.
                 if (p.isLastChild() && path) {
                     pool.lastChild[path] = true;
                 }
 
-                // Subtract the number 'subtotal' from the total of the root node and all its ancestors
+                // Subtract the number 'subtotal' from the total of the root node and all its ancestors.
                 p.state.total = (total - subtotal);
                 if (p.state.total < 0) {
                     if (options.throwOnError) {
@@ -84,7 +84,7 @@ const flatten = (nodes = [], options = {}) => {
             node.parent = current;
             node.children = node.children || [];
 
-            // Ensure parent.children[index] is equal to the current node
+            // Ensure parent.children[index] is equal to the current node.
             node.parent.children[index] = node;
 
             const path = current.state.path + '.' + index;
@@ -120,7 +120,8 @@ const flatten = (nodes = [], options = {}) => {
                 return mask;
             })(path);
 
-            if (node.isLastChild()) {
+            if (index === (current.children.length - 1)) {
+                // The node is the last child of its parent.
                 pool.lastChild[path] = true;
             }
 
@@ -135,7 +136,7 @@ const flatten = (nodes = [], options = {}) => {
 
             let parentDidOpen = true;
 
-            { // Check the open state from its ancestors
+            { // Check the open state from its ancestors.
                 let p = node;
                 while (p.parent !== null) {
                     if (p.parent.state.open === false) {
@@ -147,10 +148,10 @@ const flatten = (nodes = [], options = {}) => {
             }
 
             if (parentDidOpen) {
-                // Push the node to flatten list only if all of its parent nodes have the open state set to true
+                // Push the node to flatten list only if all of its parent nodes have the open state set to true.
                 flatten.push(node);
 
-                // Update the total number of visible child nodes
+                // Update the total number of visible child nodes.
                 let p = node;
                 while (p.parent !== null) {
                     p.parent.state.total++;
