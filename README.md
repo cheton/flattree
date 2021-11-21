@@ -1,4 +1,4 @@
-# flattree [![build status](https://travis-ci.org/cheton/flattree.svg?branch=master)](https://travis-ci.org/cheton/flattree) [![Coverage Status](https://coveralls.io/repos/github/cheton/flattree/badge.svg?branch=master)](https://coveralls.io/github/cheton/flattree?branch=master)
+# flattree [![build status](https://travis-ci.org/cheton/flattree.svg?branch=master)](https://travis-ci.org/cheton/flattree) [![codecov](https://codecov.io/gh/cheton/flattree/branch/master/graph/badge.svg?token=O3B7N9OQ9L)](https://codecov.io/gh/cheton/flattree)
 
 [![NPM](https://nodei.co/npm/flattree.png?downloads=true&stars=true)](https://www.npmjs.com/package/flattree)
 
