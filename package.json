@@ -45,5 +45,8 @@
     "exclude": [
       "test/index.js"
     ]
+  },
+  "tap": {
+    "check-coverage": false
   }
 }
