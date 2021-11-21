@@ -56,13 +56,8 @@ const flatten = (nodes = [], options = {}) => {
         if (p.state.total < 0) {
           if (options.throwOnError) {
             throw new Error('The node might have been corrupted: id=' + JSON.stringify(p.id) + ', state=' + JSON.stringify(p.state));
-          } else {
-            console && console.log('Error: The node might have been corrupted: id=%s, parent=%s, children=%s, state=%s',
-              JSON.stringify(p.id),
-              p.parent,
-              p.children,
-              JSON.stringify(p.state),
-            );
+          } else if (typeof console.error === 'function') {
+            console.error('Error: The node might have been corrupted: id=%s, parent=%s, children=%s, state=%s', JSON.stringify(p.id), p.parent, p.children, JSON.stringify(p.state));
           }
         }
 

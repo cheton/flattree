@@ -2,8 +2,11 @@ import extend from './extend';
 
 class Node {
   id = null;
+
   parent = null;
+
   children = [];
+
   state = {};
 
   constructor(node) {
@@ -11,6 +14,7 @@ class Node {
 
     this.children = this.children || [];
   }
+
   // Returns a boolean value indicating whether a node is a descendant of a given node or not.
   // @param {object} node Specifies the node that may be contained by (a descendant of) a specified node.
   // @return {boolean} Returns true if a node is a descendant of a specified node, otherwise false. A descendant can be a child, grandchild, great-grandchild, and so on.
@@ -23,6 +27,7 @@ class Node {
     }
     return false;
   }
+
   // Gets a child node at the specified index.
   // @param {number} The index of the child node.
   // @return {object} Returns an object that defines the node, null otherwise.
@@ -33,11 +38,13 @@ class Node {
     }
     return node;
   }
+
   // Gets the child nodes.
   // @return {array} Returns an array of objects that define the nodes.
   getChildren() {
     return this.children;
   }
+
   // Gets the first child node.
   // @return {object} Returns an object that defines the node, null otherwise.
   getFirstChild() {
@@ -47,6 +54,7 @@ class Node {
     }
     return node;
   }
+
   // Gets the last child node.
   // @return {object} Returns an object that defines the node, null otherwise.
   getLastChild() {
@@ -56,6 +64,7 @@ class Node {
     }
     return node;
   }
+
   // Gets the next sibling node.
   // @return {object} Returns an object that defines the node, null otherwise.
   getNextSibling() {
@@ -68,11 +77,13 @@ class Node {
     }
     return node;
   }
+
   // Gets the parent node.
   // @return {object} Returns an object that defines the node, null otherwise.
   getParent() {
     return this.parent;
   }
+
   // Gets the previous sibling node.
   // @return {object} Returns an object that defines the node, null otherwise.
   getPreviousSibling() {
@@ -85,11 +96,13 @@ class Node {
     }
     return node;
   }
+
   // Checks whether this node has children.
   // @return {boolean} Returns true if the node has children, false otherwise.
   hasChildren() {
     return this.children.length > 0;
   }
+
   // Checks whether this node is the last child of its parent.
   // @return {boolean} Returns true if the node is the last child of its parent, false otherwise.
   isLastChild() {
